@@ -368,7 +368,7 @@ function listLowWindPeriods(dates, windSpeeds, windDirections, windGusts, siteOr
 
         // Check if wind speed is < 20, gusts < 30 and direction is between NNO and E
         if (speed < 15 && gust < 25 && isDirectionValid && hour >= 10 && hour <= 19) {
-            console.log(`Valid: ${hour} - ${speed} km/h - Rafales: ${gust} km/h - ${directionText}`);
+            // console.log(`Valid: ${hour} - ${speed} km/h - Rafales: ${gust} km/h - ${directionText}`);
             const listItem = document.createElement('li');
             listItem.textContent = `${dates[i]} - ${speed.toFixed(1)} km/h - Rafales: ${gust.toFixed(1)} km/h - ${directionText}`;
             list.appendChild(listItem);
