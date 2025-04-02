@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Météo 🪂 43</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="bg-gradient-to-r from-blue-100 to-blue-300 min-h-screen flex flex-col items-center justify-center p-2 md:p-4">
+    <div class="bg-white p-4 md:p-8 rounded-xl shadow-2xl w-full max-w-4xl">
+        <div class="text-center mb-4 md:mb-6">
+            <h1 class="text-xl md:text-3xl font-bold text-blue-600">Météo Parapente Haute-Loire</h1>
+            <div class="flex flex-col sm:flex-row mt-4 gap-2 sm:gap-0">
+                <select id="cityDropdown"
+                    class="w-full sm:flex-grow p-2 border rounded-lg sm:rounded-r-none focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="">Sélectionnez une ville</option>
+                </select>
+                <button onclick="fetchWeather()" 
+                    class="w-full sm:w-auto bg-blue-500 text-white p-2 rounded-lg sm:rounded-l-none hover:bg-blue-600 transition">
+                    Rechercher
+                </button>
+            </div>
+        </div>
+
+        <div id="weatherInfo" class="hidden">
+            <div class="text-center">
+                <h2 id="cityName" class="text-xl md:text-2xl font-semibold"></h2>
+                <div id="additionalInfo" class="text-sm md:text-lg text-gray-700 mt-2"></div>
+                <div id="temperature" class="text-4xl md:text-5xl font-bold text-blue-700 my-3 md:my-4"></div>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4 mt-4 md:mt-6">
+                    <div class="bg-blue-50 p-3 md:p-4 rounded-lg">
+                        <i class="fas fa-wind text-blue-500 text-xl md:text-2xl mb-1 md:mb-2"></i>
+                        <div>
+                            <strong>Vitesse du Vent</strong>
+                            <div id="windSpeed" class="text-lg md:text-xl font-bold"></div>
+                        </div>
+                    </div>
+                    <div class="bg-blue-50 p-3 md:p-4 rounded-lg">
+                        <i class="fas fa-compass text-blue-500 text-xl md:text-2xl mb-1 md:mb-2"></i>
+                        <div>
+                            <strong>Direction du Vent</strong>
+                            <div id="windDirection" class="text-lg md:text-xl font-bold"></div>
+                        </div>
+                    </div>
+                    <div class="bg-blue-50 p-3 md:p-4 rounded-lg">
+                        <i class="fas fa-bolt text-yellow-500 text-xl md:text-2xl mb-1 md:mb-2"></i>
+                        <div>
+                            <strong>Rafales de Vent</strong>
+                            <div id="windGusts" class="text-lg md:text-xl font-bold"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-6 md:mt-8">
+                <h3 class="text-lg md:text-xl font-semibold text-center mb-3 md:mb-4">Prévisions de Vent pour 10 Jours</h3>
+                <div class="overflow-x-auto">
+                    <div class="min-w-full md:w-full" style="min-height: 250px;">
+                        <canvas id="windGustsChart"></canvas>
+                    </div>
+                    <div class="min-w-full md:w-full mt-4" style="min-height: 250px;">
+                        <canvas id="windDirectionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="errorMessage" class="text-red-500 text-center mt-4 hidden"></div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
