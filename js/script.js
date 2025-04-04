@@ -23,6 +23,29 @@ const WIND_DIRECTIONS = {
     157.5: 'SSE'
 };
 
+// Déterminer l'icône en fonction du code météo
+const weatherIcons = {
+    0: '☀️', // Ensoleillé
+    1: '🌤️', // Principalement ensoleillé
+    2: '⛅', // Partiellement nuageux
+    3: '☁️', // Nuageux
+    45: '🌫️', // Brouillard
+    48: '🌫️', // Brouillard givrant
+    51: '🌦️', // Bruine légère
+    53: '🌧️', // Bruine modérée
+    55: '🌧️', // Bruine dense
+    61: '🌦️', // Pluie légère
+    63: '🌧️', // Pluie modérée
+    65: '🌧️', // Pluie forte
+    71: '❄️', // Neige légère
+    73: '❄️', // Neige modérée
+    75: '❄️', // Neige forte
+    95: '⛈️', // Orage
+    96: '⛈️', // Orage avec grêle légère
+    99: '⛈️'  // Orage avec grêle forte
+};
+
+
 // Charger les villes au chargement de la page
 document.addEventListener('DOMContentLoaded', async () => {
     await loadSites();
@@ -189,7 +212,7 @@ async function fetchWeather() {
             throw new Error('Données du site introuvables');
         }
 
-        // Then fetch weather data with wind gusts
+        // Fetch weather data
         const weatherResponse = await fetch(
             `https://api.open-meteo.com/v1/forecast?latitude=${site.latitude}&longitude=${site.longitude}&hourly=windspeed_10m,winddirection_10m,windgusts_10m&current_weather=true&windspeed_unit=kmh&timezone=auto&forecast_days=10`
         );
@@ -197,6 +220,7 @@ async function fetchWeather() {
 
         // Update current weather UI
         document.getElementById('cityName').textContent = site.commune;
+
         // Ajouter les informations supplémentaires
         const additionalInfo = document.getElementById('additionalInfo');
         additionalInfo.innerHTML = `
@@ -213,6 +237,12 @@ async function fetchWeather() {
         `;
 
         document.getElementById('temperature').textContent = `${Math.round(weatherData.current_weather.temperature)}°C`;
+
+        // Ajouter une icône météo
+        const weatherIcon = document.getElementById('weatherIcon');
+        const weatherCode = weatherData.current_weather.weathercode;
+
+        weatherIcon.textContent = weatherIcons[weatherCode] || '❓'; // Afficher une icône par défaut si le code n'est pas trouvé
 
         const currentWindSpeed = weatherData.current_weather.windspeed;
         const currentWindDirection = weatherData.current_weather.winddirection;
@@ -268,7 +298,7 @@ function getWindDirectionText(degrees) {
     // Find the closest direction
     const closestDegree = Object.keys(WIND_DIRECTIONS)
         .map(Number)
-        .reduce((prev, curr) => 
+        .reduce((prev, curr) =>
             (Math.abs(curr - degrees) < Math.abs(prev - degrees) ? curr : prev)
         );
     return WIND_DIRECTIONS[closestDegree];
@@ -276,7 +306,7 @@ function getWindDirectionText(degrees) {
 
 function createWindDirectionChart(dates, windDirections) {
     const ctx = document.getElementById('windDirectionChart').getContext('2d');
-    
+
     // Destroy previous chart if exists
     if (windDirectionChart) {
         windDirectionChart.destroy();
@@ -309,7 +339,7 @@ function createWindDirectionChart(dates, windDirections) {
                         stepSize: 45,
                         suggestedMin: 0,
                         suggestedMax: 360,
-                        callback: function(value) {
+                        callback: function (value) {
                             return getWindDirectionText(value);
                         }
                     }
@@ -326,7 +356,7 @@ function createWindDirectionChart(dates, windDirections) {
             plugins: {
                 tooltip: {
                     callbacks: {
-                        label: function(context) {
+                        label: function (context) {
                             return getWindDirectionText(context.parsed.y);
                         }
                     }
@@ -342,7 +372,7 @@ function createWindDirectionChart(dates, windDirections) {
 
 function createWindGustsChart(dates, windSpeeds, windGusts) {
     const ctx = document.getElementById('windGustsChart').getContext('2d');
-    
+
     // Destroy previous chart if exists
     if (windGustsChart) {
         windGustsChart.destroy();
@@ -408,17 +438,17 @@ function createWindGustsChart(dates, windSpeeds, windGusts) {
                     ctx.save();
                     ctx.fillStyle = 'rgba(0, 255, 0, 0.1)';
                     ctx.fillRect(
-                        chartArea.left, 
-                        chartArea.bottom - (20 * chart.scales.y.height / chart.scales.y.max), 
-                        chartArea.width, 
+                        chartArea.left,
+                        chartArea.bottom - (20 * chart.scales.y.height / chart.scales.y.max),
+                        chartArea.width,
                         (20 * chart.scales.y.height / chart.scales.y.max)
                     );
                     // Zone pour rafales de vent < 30 km/h
                     ctx.fillStyle = 'rgba(255, 255, 0, 0.1)';
                     ctx.fillRect(
-                        chartArea.left, 
-                        chartArea.bottom - (30 * chart.scales.y.height / chart.scales.y.max), 
-                        chartArea.width, 
+                        chartArea.left,
+                        chartArea.bottom - (30 * chart.scales.y.height / chart.scales.y.max),
+                        chartArea.width,
                         (10 * chart.scales.y.height / chart.scales.y.max)
                     );
                     ctx.restore();
@@ -472,7 +502,7 @@ function listLowWindPeriods(dates, windSpeeds, windDirections, windGusts, siteOr
         const directionText = getWindDirectionText(direction);
 
         // Vérifier si la direction est dans la plage acceptable
-        const isDirectionValid = 
+        const isDirectionValid =
             (orientationRange.min <= orientationRange.max && direction >= orientationRange.min && direction <= orientationRange.max) ||
             (orientationRange.min > orientationRange.max && (direction >= orientationRange.min || direction <= orientationRange.max));
 
@@ -487,7 +517,7 @@ function listLowWindPeriods(dates, windSpeeds, windDirections, windGusts, siteOr
             const listItem = document.createElement('li');
             listItem.textContent = `${dates[i]} - ${speed.toFixed(1)} km/h - Rafales: ${gust.toFixed(1)} km/h - ${directionText}`;
             list.appendChild(listItem);
-            
+
             // Extraire le jour de la date
             const day = dates[i].split(' ')[0] + ' ' + dates[i].split(' ')[1];
             if (!favorableDays[day]) {
@@ -501,11 +531,11 @@ function listLowWindPeriods(dates, windSpeeds, windDirections, windGusts, siteOr
 
     // Append the results to the weather info section
     document.getElementById('weatherInfo').appendChild(resultsContainer);
-    
+
     const additionalInfo = document.getElementById('additionalInfo');
     // Insérer les résultats juste après le conteneur "additionalInfo"
     // additionalInfo.parentNode.insertBefore(resultsContainer, additionalInfo.nextSibling);
-    
+
     // Identifier les meilleurs jours
     const bestDays = Object.keys(favorableDays).filter(day => favorableDays[day] >= 4);
 
@@ -523,11 +553,11 @@ async function getCoordinates(city) {
     try {
         const response = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1&language=fr&format=json`);
         const data = await response.json();
-        
+
         if (!data.results || data.results.length === 0) {
             throw new Error('Ville non trouvée');
         }
-        
+
         return {
             latitude: data.results[0].latitude,
             longitude: data.results[0].longitude,
@@ -538,7 +568,7 @@ async function getCoordinates(city) {
     }
 }
 
-window.addEventListener('resize', function() {
+window.addEventListener('resize', function () {
     if (windGustsChart) {
         windGustsChart.resize();
     }
