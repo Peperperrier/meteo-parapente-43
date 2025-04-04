@@ -308,10 +308,12 @@ async function fetchWeather() {
     const cityDropdown = document.getElementById('cityDropdown').value;
     const weatherInfo = document.getElementById('weatherInfo');
     const errorMessage = document.getElementById('errorMessage');
+    const geoMessage = document.getElementById('geoMessage');
 
     // Reset previous state
     weatherInfo.classList.add('hidden');
     errorMessage.classList.add('hidden');
+    geoMessage.classList.add('hidden');
     errorMessage.textContent = '';
 
     if (!cityDropdown) {
