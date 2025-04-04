@@ -10,6 +10,7 @@
          "latitude": 45.1033,
          "longitude": 3.93,
          "altitude": 931,
+         "balise":"https://www.balisemeteo.com/balise.php?idBalise=82",
          "secteurs_vent": "NE;ESecteurs de vent défavorables : Non renseignéConditions aérologiques idéales : bon site de restitution",
          "orientation": "NE"
      },
@@ -66,7 +67,12 @@
          "latitude": 45.1887,
          "longitude": 4.0007,
          "altitude": 1064,
-         "secteurs_vent": "NE;ESecteurs de vent défavorables : N;SE;S;SO;O;NOConditions aérologiques idéales : Vent de Nord/Est à Est et conditions thermiques",
+         "balise":
+            [
+                "https://holfuy.com/fr/weather/1332",
+                "https://www.balisemeteo.com/balise.php?idBalise=5081"
+            ],
+        "secteurs_vent": "NE;ESecteurs de vent défavorables : N;SE;S;SO;O;NOConditions aérologiques idéales : Vent de Nord/Est à Est et conditions thermiques",
          "orientation": "NE"
      },
      {
@@ -85,7 +91,7 @@
      },
      {
      "id": "5154",
-     "nom": "CONILS (O)",
+     "nom": "CONIL (O)",
      "code": "5154",
      "commune": "SAINT-DIDIER-D'ALLIER",
      "code_postal": "43580",
@@ -94,6 +100,11 @@
      "latitude": 44.9648,
      "longitude": 3.7056,
      "altitude": 1090,
+     "balise":
+        [
+            "https://www.openwindmap.org/windbird-1736",
+            "https://www.balisemeteo.com/balise.php?idBalise=3736"
+        ],        
      "secteurs_vent": "Non renseignéSecteurs de vent défavorables : Non renseignéConditions aérologiques idéales : Non renseigné",
      "orientation":"O"
      },

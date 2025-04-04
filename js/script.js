@@ -96,6 +96,10 @@ async function fetchWeather() {
                 ${site.orientation ? `<p><strong>Orientation :</strong> ${site.orientation}</p>` : ''}
                 ${site.observations ? `<p><strong>Observations :</strong> ${site.observations}</p>` : ''}
                 <p><strong>Voir plus :</strong> <a href="https://meteo-parapente.com/#/${site.latitude},${site.longitude},12" target="_blank" class="text-blue-500 underline">Météo détaillée par meteo-parapente</a></p>
+                ${site.balise ? `<p><strong>Balises disponibles :</strong></p>
+                    <ul>
+                        ${Array.isArray(site.balise) ? site.balise.map(b => `<li><a href="${b}" target="_blank" class="text-blue-500 underline">${b}</a></li>`).join('') : `<li><a href="${site.balise}" target="_blank" class="text-blue-500 underline">${site.balise}</a></li>`}
+                    </ul>` : ''}
             </div>
         `;
 
@@ -193,6 +197,9 @@ function createWindDirectionChart(dates, windDirections) {
                         text: 'Direction du Vent'
                     },
                     ticks: {
+                        stepSize: 45,
+                        suggestedMin: 0,
+                        suggestedMax: 360,
                         callback: function(value) {
                             return getWindDirectionText(value);
                         }
