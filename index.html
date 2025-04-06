@@ -52,6 +52,14 @@
                     <div id="temperature" class="text-4xl md:text-5xl font-bold text-blue-700"></div>
                     <div id="weatherIcon" class="text-4xl md:text-5xl"></div>
                 </div>
+                <div class="flex items-center gap-2 mt-4">
+                    <label for="forecastPeriod" class="text-sm font-semibold">Période :</label>
+                    <select id="forecastPeriod" class="p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="2" selected>2 jours</option>
+                        <option value="5">5 jours</option>
+                        <option value="10">10 jours</option>
+                    </select>
+                </div>
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4 mt-4 md:mt-6">
                     <div class="bg-blue-50 p-3 md:p-4 rounded-lg">
                         <i class="fas fa-wind text-blue-500 text-xl md:text-2xl mb-1 md:mb-2"></i>

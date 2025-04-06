@@ -388,6 +388,7 @@ async function fetchWeather() {
     const weatherInfo = document.getElementById('weatherInfo');
     const errorMessage = document.getElementById('errorMessage');
     const geoMessage = document.getElementById('geoMessage');
+    const forecastPeriod = document.getElementById('forecastPeriod').value; // Récupérer la période sélectionnée
 
     // Reset previous state
     weatherInfo.classList.add('hidden');
@@ -461,10 +462,10 @@ async function fetchWeather() {
         document.getElementById('windGusts').textContent = `${typeof currentWindGust === 'number' ? currentWindGust.toFixed(1) : currentWindGust} km/h`;
 
         // Prepare data for charts
-        const hourlyDates = weatherData.hourly.time.slice(0, 240); // 10 days * 24 hours
-        const hourlyWindSpeeds = weatherData.hourly.windspeed_10m.slice(0, 240);
-        const hourlyWindDirections = weatherData.hourly.winddirection_10m.slice(0, 240);
-        const hourlyWindGusts = weatherData.hourly.windgusts_10m.slice(0, 240);
+        const hourlyDates = weatherData.hourly.time.slice(0, forecastPeriod * 24); // Ajuster en fonction de la période
+        const hourlyWindSpeeds = weatherData.hourly.windspeed_10m.slice(0, forecastPeriod * 24);
+        const hourlyWindDirections = weatherData.hourly.winddirection_10m.slice(0, forecastPeriod * 24);
+        const hourlyWindGusts = weatherData.hourly.windgusts_10m.slice(0, forecastPeriod * 24);
 
         // Format dates
         const formattedDates = hourlyDates.map(date => new Date(date).toLocaleString('fr-FR', {
@@ -490,7 +491,22 @@ async function fetchWeather() {
 
 
 // Weather data functions
+function saveForecastPeriod() {
+    const forecastPeriod = document.getElementById('forecastPeriod').value;
+    localStorage.setItem('forecastPeriod', forecastPeriod);
+}
 
+function loadForecastPeriod() {
+    const savedPeriod = localStorage.getItem('forecastPeriod');
+    if (savedPeriod) {
+        document.getElementById('forecastPeriod').value = savedPeriod;
+    }
+}
+
+document.getElementById('forecastPeriod').addEventListener('change', () => {
+    saveForecastPeriod(); // Sauvegarder la période sélectionnée
+    fetchWeather(); // Recharger les graphiques avec la nouvelle période
+});
 function getWindDirectionText(degrees) {
     // Find the closest direction
     const closestDegree = Object.keys(WIND_DIRECTIONS)
