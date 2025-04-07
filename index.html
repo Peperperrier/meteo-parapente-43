@@ -52,14 +52,6 @@
                     <div id="temperature" class="text-4xl md:text-5xl font-bold text-blue-700"></div>
                     <div id="weatherIcon" class="text-4xl md:text-5xl"></div>
                 </div>
-                <div class="flex items-center gap-2 mt-4">
-                    <label for="forecastPeriod" class="text-sm font-semibold">Période :</label>
-                    <select id="forecastPeriod" class="p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <option value="2" selected>2 jours</option>
-                        <option value="5">5 jours</option>
-                        <option value="10">10 jours</option>
-                    </select>
-                </div>
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4 mt-4 md:mt-6">
                     <div class="bg-blue-50 p-3 md:p-4 rounded-lg">
                         <i class="fas fa-wind text-blue-500 text-xl md:text-2xl mb-1 md:mb-2"></i>
@@ -85,21 +77,31 @@
                 </div>
             </div>
 
-            <div class="mt-6 md:mt-8">
-                <h3 class="text-lg md:text-xl font-semibold text-center mb-3 md:mb-4">Prévisions de Vent pour 10 Jours
-                </h3>
-                <div class="overflow-x-auto">
-                    <div class="min-w-full md:w-full" style="min-height: 250px;">
-                        <canvas id="windGustsChart"></canvas>
-                    </div>
-                    <div class="min-w-full md:w-full mt-4" style="min-height: 250px;">
-                        <canvas id="windDirectionChart"></canvas>
-                    </div>
+            <div class="flex items-center justify-between mt-6 md:mt-8">
+                <div class="flex items-center gap-2">
+                    <label for="forecastPeriod" class="text-sm font-semibold">Période :</label>
+                    <select id="forecastPeriod"
+                        class="p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="2" selected>2 jours</option>
+                        <option value="5">5 jours</option>
+                        <option value="10">10 jours</option>
+                    </select>
+                </div>
+                <h3 class="text-lg md:text-xl font-semibold text-center flex-grow">Prévisions : </h3>
+            </div>
+
+            <div class="overflow-x-auto">
+                <div class="min-w-full md:w-full" style="min-height: 250px;">
+                    <canvas id="windGustsChart"></canvas>
+                </div>
+                <div class="min-w-full md:w-full mt-4" style="min-height: 250px;">
+                    <canvas id="windDirectionChart"></canvas>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div id="errorMessage" class="text-red-500 text-center mt-4 hidden"></div>
+    <div id="errorMessage" class="text-red-500 text-center mt-4 hidden"></div>
     </div>
 
     <script src="js/script.js"></script>
