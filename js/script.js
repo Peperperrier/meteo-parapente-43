@@ -393,7 +393,7 @@ async function fetchWeather() {
     // Reset previous state
     weatherInfo.classList.add('hidden');
     errorMessage.classList.add('hidden');
-    geoMessage.classList.add('hidden');
+    // geoMessage.classList.add('hidden');
     errorMessage.textContent = '';
 
     if (!cityDropdown) {

@@ -15,8 +15,13 @@
     <div class="bg-white p-4 md:p-8 rounded-xl shadow-2xl w-full max-w-4xl">
         <div class="text-center mb-4 md:mb-6">
             <h1 class="text-xl md:text-3xl font-bold text-blue-600 mb-4">Météo Parapente Haute-Loire</h1>
+            <div class="text-left">
+                <label class="block text-sm font-semibold text-gray-700">
+                    Vers quelle ville voulez-vous voler ?
+                </label>
+            </div>
             <div class="flex items-center gap-2 mb-4">
-                <input id="cityInput" type="text" placeholder="Où voulez-vous voler ?"
+                <input id="cityInput" type="text" placeholder="Nom de la ville"
                     class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                 <button id="geoLocateButton"
                     class="w-24 h-10 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
@@ -27,7 +32,12 @@
                     Rechercher
                 </button>
             </div>
-            <div class="flex flex-col sm:flex-row mt-4 gap-2 sm:gap-0">
+            <div class="text-left">
+                <label class="block text-sm font-semibold text-gray-700">
+                    Liste des sites
+                </label>
+            </div>
+            <div class="flex flex-col sm:flex-row gap-2 sm:gap-0">
                 <select id="cityDropdown"
                     class="w-full sm:flex-grow p-2 border rounded-lg sm:rounded-r-none focus:outline-none focus:ring-2 focus:ring-blue-500">
                     <option value="">Consulter la météo d'un déco</option>
