@@ -4,116 +4,265 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Météo 🪂 43</title>
+    <title>Prévisions de vol 🪂</title>
     <link rel="icon" type="image/png" href="data/icons8-paragliding-64.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .parallax-bg {
+            background-image: url('/api/placeholder/1920/1080');
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .wind-direction-arrow {
+            transition: transform 0.5s ease;
+        }
+        .title-banner {
+            background: linear-gradient(90deg, #1e40af, #3b82f6, #1e40af);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+    </style>
 </head>
 
-<body
-    class="bg-gradient-to-r from-blue-100 to-blue-300 min-h-screen flex flex-col items-center justify-center p-2 md:p-4">
-    <div class="bg-white p-4 md:p-8 rounded-xl shadow-2xl w-full max-w-4xl">
-        <div class="text-center mb-4 md:mb-6">
-            <h1 class="text-xl md:text-3xl font-bold text-blue-600 mb-4">Météo Parapente Haute-Loire</h1>
-            <div class="text-left">
-                <label class="block text-sm font-semibold text-gray-700">
-                    Trouvez les meilleurs sites proches de chez vous :
-                </label>
-            </div>
-            <div class="flex items-center gap-2 mb-4">
-                <input id="cityInput" type="text" placeholder="Nom de la ville"
-                    class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <button id="geoLocateButton"
-                    class="w-24 h-10 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
-                    <i class="fas fa-map-marker-alt"></i>
-                </button>
-                <button id="searchCityButton"
-                    class="p-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition">
-                    Rechercher
-                </button>
-            </div>
-            <div class="text-left">
-                <label class="block text-sm font-semibold text-gray-700">
-                    Liste des sites
-                </label>
-            </div>
-            <div class="flex flex-col sm:flex-row gap-2 sm:gap-0">
-                <select id="cityDropdown"
-                    class="w-full sm:flex-grow p-2 border rounded-lg sm:rounded-r-none focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <option value="">Consulter la météo d'un déco</option>
-                </select>
-                <button onclick="fetchWeather()"
-                    class="w-full sm:w-auto bg-blue-500 text-white p-2 rounded-lg sm:rounded-l-none hover:bg-blue-600 transition">
-                    Rechercher
-                </button>
-            </div>
-            <div id="dynamicContent" class="mt-4">
-                <div id="geoMessage" class="text-center text-blue-600 text-sm md:text-base font-semibold mb-2"></div>
-                <div id="bestSiteInfo"
-                    class="text-center mt-4 text-green-600 text-sm md:text-base font-semibold hover:underline"></div>
-            </div>
-        </div>
-
-        <div id="weatherInfo" class="hidden">
-            <div class="text-center">
-                <h2 id="cityName" class="text-xl md:text-2xl font-semibold"></h2>
-                <div id="additionalInfo" class="text-sm md:text-lg text-gray-700 mt-2"></div>
-                <div class="flex items-center justify-center gap-2 my-3 md:my-4">
-                    <div id="temperature" class="text-4xl md:text-5xl font-bold text-blue-700"></div>
-                    <div id="weatherIcon" class="text-4xl md:text-5xl"></div>
-                </div>
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4 mt-4 md:mt-6">
-                    <div class="bg-blue-50 p-3 md:p-4 rounded-lg">
-                        <i class="fas fa-wind text-blue-500 text-xl md:text-2xl mb-1 md:mb-2"></i>
-                        <div>
-                            <strong>Vitesse du Vent</strong>
-                            <div id="windSpeed" class="text-lg md:text-xl font-bold"></div>
-                        </div>
-                    </div>
-                    <div class="bg-blue-50 p-3 md:p-4 rounded-lg">
-                        <i class="fas fa-compass text-blue-500 text-xl md:text-2xl mb-1 md:mb-2"></i>
-                        <div>
-                            <strong>Direction du Vent</strong>
-                            <div id="windDirection" class="text-lg md:text-xl font-bold"></div>
-                        </div>
-                    </div>
-                    <div class="bg-blue-50 p-3 md:p-4 rounded-lg">
-                        <i class="fas fa-bolt text-yellow-500 text-xl md:text-2xl mb-1 md:mb-2"></i>
-                        <div>
-                            <strong>Rafales de Vent</strong>
-                            <div id="windGusts" class="text-lg md:text-xl font-bold"></div>
-                        </div>
-                    </div>
+<body class="min-h-screen flex flex-col font-sans bg-blue-50">
+    <!-- Banner Title -->
+    <div class="title-banner w-full p-4 md:p-6">
+        <div class="container mx-auto flex items-center justify-between">
+            <div class="flex items-center">
+                <i class="fas fa-parachute-box text-yellow-400 text-3xl md:text-4xl mr-3"></i>
+                <div>
+                    <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold text-white">ProGlide 🪂</h1>
+                    <p class="text-sm md:text-base text-blue-100">Les meilleurs infos, pour les meilleurs spots</p>
                 </div>
             </div>
-
-            <div class="flex items-center justify-between mt-6 md:mt-8">
-                <div class="flex items-center gap-2">
-                    <label for="forecastPeriod" class="text-sm font-semibold">Période :</label>
-                    <select id="forecastPeriod"
-                        class="p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <option value="2" selected>2 jours</option>
-                        <option value="5">5 jours</option>
-                        <option value="10">10 jours</option>
-                    </select>
-                </div>
-                <h3 class="text-lg md:text-xl font-semibold text-center flex-grow">Prévisions : </h3>
+            <div class="hidden md:flex items-center space-x-4 text-white">
+                <a href="#" class="hover:text-yellow-400 transition-colors flex items-center">
+                    <i class="fas fa-info-circle mr-1"></i>
+                    <span>À propos</span>
+                </a>
+                <a href="#" class="hover:text-yellow-400 transition-colors flex items-center">
+                    <i class="fas fa-map-marked-alt mr-1"></i>
+                    <span>Sites</span>
+                </a>
+                <a href="#" class="hover:text-yellow-400 transition-colors flex items-center">
+                    <i class="fas fa-users mr-1"></i>
+                    <span>Communauté</span>
+                </a>
             </div>
-
-            <div class="overflow-x-auto">
-                <div class="min-w-full md:w-full" style="min-height: 250px;">
-                    <canvas id="windGustsChart"></canvas>
-                </div>
-                <div class="min-w-full md:w-full mt-4" style="min-height: 250px;">
-                    <canvas id="windDirectionChart"></canvas>
-                </div>
-            </div>
+            <button class="md:hidden text-white text-xl">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
     </div>
 
-    <div id="errorMessage" class="text-red-500 text-center mt-4 hidden"></div>
+    <!-- Hero Image -->
+    <div class="parallax-bg w-full h-12 md:h-16 relative">
+        <!-- Optional content for hero if needed -->
     </div>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-8 -mt-16">
+        <div class="glass-card rounded-3xl shadow-xl overflow-hidden">
+            <!-- Search Section -->
+            <div class="bg-gradient-to-r from-blue-600 to-sky-400 p-6 text-white">
+                <h2 class="text-xl md:text-2xl font-bold mb-4">Trouvez les meilleurs spots de vol</h2>
+                
+                <div class="space-y-4">
+                    <!-- City Search -->
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Localisation:</label>
+                        <div class="flex flex-col md:flex-row gap-2">
+                            <div class="relative flex-grow">
+                                <input id="cityInput" type="text" placeholder="Saisissez votre ville"
+                                    class="w-full p-3 pr-10 rounded-xl text-gray-800 focus:outline-none focus:ring-2 focus:ring-yellow-400">
+                                <button id="geoLocateButton" class="absolute right-3 top-3 text-gray-500 hover:text-blue-600">
+                                    <i class="fas fa-location-arrow"></i>
+                                </button>
+                            </div>
+                            <button id="searchCityButton"
+                                class="p-3 bg-yellow-500 hover:bg-yellow-400 text-blue-900 font-bold rounded-xl transition-all flex items-center justify-center">
+                                <i class="fas fa-search mr-2"></i> Rechercher
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Sites Dropdown -->
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Sites de décollage:</label>
+                        <div class="flex flex-col md:flex-row gap-2">
+                            <select id="cityDropdown"
+                                class="flex-grow p-3 rounded-xl text-gray-800 focus:outline-none focus:ring-2 focus:ring-yellow-400 ">
+                                <option value="">Sélectionnez un site de décollage</option>
+                            </select>
+                            <button onclick="fetchWeather()"
+                                class="p-3 bg-yellow-500 hover:bg-yellow-400 text-blue-900 font-bold rounded-xl transition-all flex items-center justify-center">
+                                <i class="fas fa-wind mr-2"></i> Voir la météo
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Dynamic messages -->
+                <div id="dynamicContent" class="mt-4">
+                    <div id="geoMessage" class="text-center text-yellow-200 font-medium mb-2"></div>
+                    <div id="bestSiteInfo" class="text-center mt-2 text-yellow-100 font-medium hover:underline cursor-pointer"></div>
+                </div>
+            </div>
+
+            <!-- Weather Display Section -->
+            <div id="weatherInfo" class="hidden p-6 bg-white">
+                <div class="text-center mb-8">
+                    <h2 id="cityName" class="text-3xl font-bold text-blue-800"></h2>
+                    <div id="additionalInfo" class="text-lg text-gray-600 mt-1"></div>
+                    
+                    <!-- Current Weather -->
+                    <div class="flex flex-col items-center justify-center my-6">
+                        <div class="flex items-center gap-3">
+                            <div id="weatherIcon" class="text-6xl"></div>
+                            <div id="temperature" class="text-6xl font-bold text-blue-600"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Wind Data Cards -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
+                        <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-5 rounded-2xl shadow-md transform hover:scale-105 transition-all">
+                            <div class="flex items-center justify-center mb-3">
+                                <i class="fas fa-wind text-blue-600 text-2xl"></i>
+                            </div>
+                            <h3 class="text-blue-800 font-medium">Vitesse du Vent</h3>
+                            <div id="windSpeed" class="text-2xl font-bold mt-1"></div>
+                        </div>
+                        
+                        <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-5 rounded-2xl shadow-md transform hover:scale-105 transition-all">
+                            <div class="flex items-center justify-center mb-3">
+                                <i class="fas fa-compass text-blue-600 text-2xl"></i>
+                            </div>
+                            <h3 class="text-blue-800 font-medium">Direction</h3>
+                            <div class="flex items-center justify-center">
+                                <div id="windDirection" class="text-2xl font-bold mt-1"></div>
+                                <div class="ml-2">
+                                    <i class="fas fa-long-arrow-alt-up text-xl wind-direction-arrow" id="windDirectionArrow"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-5 rounded-2xl shadow-md transform hover:scale-105 transition-all">
+                            <div class="flex items-center justify-center mb-3">
+                                <i class="fas fa-bolt text-amber-500 text-2xl"></i>
+                            </div>
+                            <h3 class="text-blue-800 font-medium">Rafales</h3>
+                            <div id="windGusts" class="text-2xl font-bold mt-1"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Forecast Section -->
+                <div class="mt-10">
+                    <div class="flex flex-col md:flex-row items-center justify-between mb-6">
+                        <h3 class="text-2xl font-bold text-blue-800 mb-3 md:mb-0">Prévisions</h3>
+                        <div class="flex items-center gap-3 bg-blue-50 p-2 rounded-xl">
+                            <label for="forecastPeriod" class="text-sm font-medium text-blue-700">Période:</label>
+                            <select id="forecastPeriod"
+                                class="p-2 border border-blue-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="2" selected>2 jours</option>
+                                <option value="5">5 jours</option>
+                                <option value="10">10 jours</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Charts -->
+                    <div class="space-y-8">
+                        <div class="bg-white rounded-2xl p-4 shadow-md">
+                            <h4 class="text-lg font-medium text-gray-700 mb-4">Vitesse et rafales (km/h)</h4>
+                            <div class="h-64">
+                                <canvas id="windGustsChart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white rounded-2xl p-4 shadow-md">
+                            <h4 class="text-lg font-medium text-gray-700 mb-4">Direction du vent</h4>
+                            <div class="h-64">
+                                <canvas id="windDirectionChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Error Message -->
+        <div id="errorMessage" class="bg-red-100 text-red-700 p-4 rounded-xl mt-4 hidden"></div>
+    </div>
+
+    <!-- Footer with additional info -->
+    <footer class="mt-auto bg-blue-900 text-white py-6">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <h3 class="text-xl font-bold flex items-center">
+                        <span class="mr-2">Where to Glide ? </span>
+                        <i class="fas fa-mountain text-yellow-400"></i>
+                    </h3>
+                    <p class="text-blue-200 text-sm mt-1">Prévisions météo pour vos vols en parapente</p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="hover:text-yellow-400 transition-colors">
+                        <i class="fab fa-facebook text-xl"></i>
+                    </a>
+                    <a href="#" class="hover:text-yellow-400 transition-colors">
+                        <i class="fab fa-instagram text-xl"></i>
+                    </a>
+                    <a href="#" class="hover:text-yellow-400 transition-colors">
+                        <i class="fab fa-youtube text-xl"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Additional script content -->
+    <script>
+        // This would be added to your existing script.js file
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animation for wind direction arrow
+            function updateWindDirectionArrow(direction) {
+                const arrow = document.getElementById('windDirectionArrow');
+                if (arrow && direction) {
+                    // Convert direction text to degrees for rotation
+                    const dirMap = {
+                        'N': 0, 'NNE': 22.5, 'NE': 45, 'ENE': 67.5,
+                        'E': 90, 'ESE': 112.5, 'SE': 135, 'SSE': 157.5,
+                        'S': 180, 'SSW': 202.5, 'SW': 225, 'WSW': 247.5,
+                        'W': 270, 'WNW': 292.5, 'NW': 315, 'NNW': 337.5
+                    };
+                    
+                    const degree = dirMap[direction] || 0;
+                    arrow.style.transform = `rotate(${degree}deg)`;
+                }
+            }
+            
+            // You would call this function after updating the wind direction display
+            // For example, after setting windDirection.textContent = directionText;
+            // updateWindDirectionArrow(directionText);
+            
+            // This is just for demo - you would integrate this with your actual code
+            const mockDirections = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
+            let i = 0;
+            setInterval(() => {
+                updateWindDirectionArrow(mockDirections[i % mockDirections.length]);
+                i++;
+            }, 2000);
+        });
+    </script>
 
     <script src="js/script.js"></script>
 </body>

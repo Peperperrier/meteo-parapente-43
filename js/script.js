@@ -680,16 +680,62 @@ function listLowWindPeriods(dates, windSpeeds, windDirections, windGusts, siteOr
 
     // Créer un nouveau conteneur pour les résultats
     const resultsContainer = document.createElement('div');
-    resultsContainer.id = 'lowWindPeriods'; // Ajoutez un ID unique pour identifier ce conteneur
-    resultsContainer.classList.add('mt-4', 'md:mt-6', 'p-3', 'md:p-4', 'bg-blue-50', 'rounded-lg', 'shadow-md', 'text-sm', 'md:text-base');
+    resultsContainer.id = 'lowWindPeriods';
+    resultsContainer.classList.add('mt-6', 'p-5', 'bg-gradient-to-br', 'from-blue-50', 'to-blue-100',
+        'rounded-2xl', 'shadow-lg', 'border', 'border-blue-200');
+
+    // Titre avec icône
+    const titleContainer = document.createElement('div');
+    titleContainer.classList.add('flex', 'items-center', 'gap-2', 'mb-4');
+
+    const titleIcon = document.createElement('i');
+    titleIcon.classList.add('fas', 'fa-check-circle', 'text-green-500', 'text-xl');
 
     const title = document.createElement('h4');
     title.textContent = `Périodes favorables: vent < 15 km/h, rafales < 25 km/h, direction proche de ${siteOrientation}`;
-    title.classList.add('text-base', 'md:text-lg', 'font-semibold', 'mb-2', 'md:mb-4');
-    resultsContainer.appendChild(title);
+    title.classList.add('text-lg', 'font-bold', 'text-blue-800');
 
+    titleContainer.appendChild(titleIcon);
+    titleContainer.appendChild(title);
+    resultsContainer.appendChild(titleContainer);
+
+    // Liste avec un style amélioré
     const list = document.createElement('ul');
-    list.classList.add('list-disc', 'pl-4', 'md:pl-6', 'max-h-40', 'md:max-h-60', 'overflow-y-auto');
+    list.classList.add('space-y-2', 'max-h-60', 'overflow-y-auto', 'pr-2', 'custom-scrollbar');
+
+    // Ajouter un style pour la scrollbar personnalisée
+    const style = document.createElement('style');
+    style.textContent = `
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: rgba(219, 234, 254, 0.5);
+    border-radius: 10px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(59, 130, 246, 0.5);
+    border-radius: 10px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(59, 130, 246, 0.7);
+  }
+`;
+    document.head.appendChild(style);
+
+    // Note: Pour chaque élément de la liste, vous pourriez utiliser ce format:
+    // const listItem = document.createElement('li');
+    // listItem.classList.add('p-2', 'bg-white', 'rounded-lg', 'shadow-sm', 'border-l-4', 'border-green-400', 'flex', 'items-center');
+    // listItem.innerHTML = `<i class="fas fa-wind text-blue-600 mr-2 text-sm"></i><span>${périodeTexte}</span>`;
+    // list.appendChild(listItem);
+
+    resultsContainer.appendChild(list);
+
+    // Facultatif: Ajouter un pied de conteneur avec un texte d'aide
+    const footer = document.createElement('div');
+    footer.classList.add('mt-4', 'text-xs', 'text-blue-600', 'italic', 'flex', 'items-center');
+    footer.innerHTML = '<i class="fas fa-info-circle mr-1"></i>Conditions optimales pour un vol en sécurité';
+    resultsContainer.appendChild(footer);
 
     const favorableDays = {}; // Stocker les périodes favorables par jour
 
