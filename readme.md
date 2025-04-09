@@ -1,4 +1,4 @@
-# 🪂 Météo Parapente Haute-Loire
+# 🪂 Chasseur de déco 🪂
 
 Ce projet est une application web permettant de consulter les prévisions météorologiques pour les sites de parapente en Haute-Loire. Elle fournit des informations détaillées sur la vitesse du vent, la direction du vent, les rafales, ainsi que des périodes favorables pour voler.
 
