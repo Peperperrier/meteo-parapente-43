@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prévisions de vol 🪂</title>
+    <link rel="icon" type="image/png" href="data/icons8-paragliding-64.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+   <!-- Leaflet.js CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<!-- Leaflet.js JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- <a href="index.html"class="fas fa-parachute-box text-yellow-400 text-3xl md:text-4xl mr-3"></a> -->
+    <style>
+        .parallax-bg {
+            background-image: url('/api/placeholder/1920/1080');
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .wind-direction-arrow {
+            transition: transform 0.5s ease;
+        }
+        .title-banner {
+            background: linear-gradient(90deg, #1e40af, #3b82f6, #1e40af);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col font-sans bg-blue-50">
+<!-- Banner Title -->
+<div class="title-banner w-full p-4 md:p-6">
+    <div class="container mx-auto flex items-center justify-between">
+        <div class="flex items-center">
+            <a href="index.html"class="fas fa-parachute-box text-yellow-400 text-3xl md:text-4xl mr-3"></a>
+            <div>
+                <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold text-white">Chasseur de déco 🪂</h1>
+                <p class="text-sm md:text-base text-blue-100">Les meilleurs infos, pour les meilleurs spots</p>
+            </div>
+        </div>
+        <div class="hidden md:flex items-center space-x-4 text-white">
+            <a href="#" class="hover:text-yellow-400 transition-colors flex items-center">
+                <i class="fas fa-info-circle mr-1"></i>
+                <span>À propos</span>
+            </a>
+            <a href="sites.html" class="hover:text-yellow-400 transition-colors flex items-center">
+                <i class="fas fa-map-marked-alt mr-1"></i>
+                <span>Sites</span>
+            </a>
+            <a href="#" class="hover:text-yellow-400 transition-colors flex items-center">
+                <i class="fas fa-users mr-1"></i>
+                <span>Communauté</span>
+            </a>
+        </div>
+        <button class="md:hidden text-white text-xl">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+</div>
+
+    <!-- Hero Image -->
+    <div class="parallax-bg w-full h-12 md:h-16 relative">
+        <!-- Optional content for hero if needed -->
+    </div>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-8 -mt-16">
+        <div class="glass-card rounded-3xl shadow-xl overflow-hidden mt-8">
+            <h2 class="text-xl md:text-2xl font-bold text-center text-blue-800 p-4">Carte des sites de décollage</h2>
+            <div id="map" class="w-full h-[600px] rounded-b-3xl"></div>
+        </div>
+        
+        <!-- Error Message -->
+        <div id="errorMessage" class="bg-red-100 text-red-700 p-4 rounded-xl mt-4 hidden"></div>
+    </div>
+
+    <!-- Footer with additional info -->
+    <footer class="mt-auto bg-blue-900 text-white py-6">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <h3 class="text-xl font-bold flex items-center">
+                        <span class="mr-2">Par amour de la montagne et du vol libre</span>
+                        <i class="fas fa-mountain text-yellow-400"></i>
+                    </h3>
+                    <p class="text-blue-200 text-sm mt-1">Vous aidez, partager, voler, s'informer</p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="hover:text-yellow-400 transition-colors">
+                        <i class="fab fa-facebook text-xl"></i>
+                    </a>
+                    <a href="#" class="hover:text-yellow-400 transition-colors">
+                        <i class="fab fa-instagram text-xl"></i>
+                    </a>
+                    <a href="#" class="hover:text-yellow-400 transition-colors">
+                        <i class="fab fa-youtube text-xl"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="js/script.js"></script>
+</body>
+
+</html>

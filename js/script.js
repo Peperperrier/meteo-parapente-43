@@ -48,6 +48,7 @@ const weatherIcons = {
     99: '⛈️'  // Orage avec grêle forte
 };
 
+
 /** GEOLOCALISATION */
 
 function calculateDistance(lat1, lon1, lat2, lon2) {
@@ -68,101 +69,110 @@ function findNearbySites(latitude, longitude, maxDistance = 30) {
     });
 }
 
-document.getElementById('geoLocateButton').addEventListener('click', async () => {
-    document.getElementById('cityInput').value = '';
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(async (position) => {
-            const latitude = position.coords.latitude;
-            const longitude = position.coords.longitude;
+const geoLocateButton = document.getElementById('geoLocateButton');
+if (geoLocateButton) {
+    geoLocateButton.addEventListener('click', async () => {
+        document.getElementById('cityInput').value = '';
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(async (position) => {
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
 
-            try {
-                // Récupérer la ville géolocalisée avec Nominatim
-                const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
-                const data = await response.json();
+                try {
+                    // Récupérer la ville géolocalisée avec Nominatim
+                    const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
+                    const data = await response.json();
 
-                const cityName = data.address.city || data.address.town || data.address.village;
+                    const cityName = data.address.city || data.address.town || data.address.village;
 
-                if (!cityName) {
-                    document.getElementById('geoMessage').textContent = "😞 Nous n'avons pas pu vous localiser.";
-                    return;
-                }
-
-                // Afficher le message de la ville géolocalisée
-                document.getElementById('geoMessage').textContent = `📍 Vous êtes environ à ${cityName}.`;
-
-                // Trouver les sites proches
-                const nearbySites = findNearbySites(latitude, longitude);
-
-                const bestSiteInfo = document.getElementById('bestSiteInfo');
-                if (nearbySites.length > 0) {
-                    bestSiteInfo.innerHTML = "🤔 Recherche du meilleur site en cours...";
-                    const results = await fetchWeatherForAllSites(nearbySites);
-                    const bestSite = findBestSite(results);
-
-                    if (bestSite) {
-                        bestSiteInfo.innerHTML = `💡 Le meilleur site pour les 2 prochains jours est : <strong>${bestSite.site}</strong> (${bestSite.commune}) avec <strong>${bestSite.favorablePeriods}</strong> périodes favorables.`;
-                        bestSiteInfo.setAttribute('data-site', bestSite.site);
-                        bestSiteInfo.style.cursor = 'pointer';
-                    } else {
-                        bestSiteInfo.innerHTML = "😞 Aucun site favorable trouvé pour les 2 prochains jours, à moins de 30km.";
-                        bestSiteInfo.removeAttribute('data-site');
-                        bestSiteInfo.style.cursor = 'default';
+                    if (!cityName) {
+                        document.getElementById('geoMessage').textContent = "😞 Nous n'avons pas pu vous localiser.";
+                        return;
                     }
-                } else {
-                    bestSiteInfo.innerHTML = "😞 Aucun site de décollage trouvé à moins de 30 km.";
+
+                    // Afficher le message de la ville géolocalisée
+                    document.getElementById('geoMessage').textContent = `📍 Vous êtes environ à ${cityName}.`;
+
+                    // Trouver les sites proches
+                    const nearbySites = findNearbySites(latitude, longitude);
+
+                    const bestSiteInfo = document.getElementById('bestSiteInfo');
+                    if (nearbySites.length > 0) {
+                        bestSiteInfo.innerHTML = "🤔 Recherche du meilleur site en cours...";
+                        const results = await fetchWeatherForAllSites(nearbySites);
+                        const bestSite = findBestSite(results);
+
+                        if (bestSite) {
+                            bestSiteInfo.innerHTML = `💡 Le meilleur site pour les 2 prochains jours est : <strong>${bestSite.site}</strong> (${bestSite.commune}) avec <strong>${bestSite.favorablePeriods}</strong> périodes favorables.`;
+                            bestSiteInfo.setAttribute('data-site', bestSite.site);
+                            bestSiteInfo.style.cursor = 'pointer';
+                        } else {
+                            bestSiteInfo.innerHTML = "😞 Aucun site favorable trouvé pour les 2 prochains jours, à moins de 30km.";
+                            bestSiteInfo.removeAttribute('data-site');
+                            bestSiteInfo.style.cursor = 'default';
+                        }
+                    } else {
+                        bestSiteInfo.innerHTML = "😞 Aucun site de décollage trouvé à moins de 30 km.";
+                    }
+                } catch (error) {
+                    document.getElementById('geoMessage').textContent = 'Erreur lors de la géolocalisation : ' + error.message;
                 }
-            } catch (error) {
-                document.getElementById('geoMessage').textContent = 'Erreur lors de la géolocalisation : ' + error.message;
-            }
-        }, (error) => {
-            document.getElementById('geoMessage').textContent = 'Impossible de récupérer votre position. Veuillez vérifier vos paramètres de localisation.';
-        });
-    } else {
-        document.getElementById('geoMessage').textContent = 'La géolocalisation n\'est pas prise en charge par votre navigateur.';
-    }
-    loadSites();
-});
-
-document.getElementById('cityInput').addEventListener('focus', () => {
-    document.getElementById('geoMessage').textContent = '';
-});
-
-document.getElementById('searchCityButton').addEventListener('click', async () => {
-    document.getElementById('geoMessage').textContent = '';
-    const cityInput = document.getElementById('cityInput').value.trim();
-
-    if (!cityInput) {
-        document.getElementById('geoMessage').textContent = "😞 On ne connait pas cette ville";
-        return;
-    }
-
-    try {
-        const coordinates = await getCoordinates(cityInput);
-        const nearbySites = findNearbySites(coordinates.latitude, coordinates.longitude);
-
-        const bestSiteInfo = document.getElementById('bestSiteInfo');
-        if (nearbySites.length > 0) {
-            bestSiteInfo.innerHTML = "🤔 Recherche du meilleur site en cours...";
-            const results = await fetchWeatherForAllSites(nearbySites);
-            const bestSite = findBestSite(results);
-
-            if (bestSite) {
-                bestSiteInfo.innerHTML = `💡 Le meilleur site pour les 2 prochains jours est : <strong>${bestSite.site}</strong> (${bestSite.commune}) avec <strong>${bestSite.favorablePeriods}</strong> périodes favorables.`;
-                bestSiteInfo.setAttribute('data-site', bestSite.site);
-                bestSiteInfo.style.cursor = 'pointer';
-            } else {
-                bestSiteInfo.innerHTML = "😞 Aucun site favorable trouvé pour les 2 prochains jours, à moins de 30km.";
-                bestSiteInfo.removeAttribute('data-site');
-                bestSiteInfo.style.cursor = 'default';
-            }
-            loadSites();
+            }, (error) => {
+                document.getElementById('geoMessage').textContent = 'Impossible de récupérer votre position. Veuillez vérifier vos paramètres de localisation.';
+            });
         } else {
-            bestSiteInfo.innerHTML = "😞 Aucun site de décollage trouvé à proximité.";
+            document.getElementById('geoMessage').textContent = 'La géolocalisation n\'est pas prise en charge par votre navigateur.';
         }
-    } catch (error) {
-        document.getElementById('geoMessage').textContent = "❓ On ne connait pas cette ville, vérifiez l'orthographe de la ville 🤷";
-    }
-});
+        loadSites();
+    });
+}
+
+const cityInputButton = document.getElementById('cityInput');
+if (cityInputButton) {
+    cityInputButton.addEventListener('click', async () => {
+        document.getElementById('geoMessage').textContent = '';
+    });
+}
+
+const searchCityButton = document.getElementById('searchCityButton');
+if (searchCityButton) {
+    searchCityButton.addEventListener('click', async () => {
+        document.getElementById('geoMessage').textContent = '';
+        const cityInput = document.getElementById('cityInput').value.trim();
+
+        if (!cityInput) {
+            document.getElementById('geoMessage').textContent = "😞 On ne connait pas cette ville";
+            return;
+        }
+
+        try {
+            const coordinates = await getCoordinates(cityInput);
+            const nearbySites = findNearbySites(coordinates.latitude, coordinates.longitude);
+
+            const bestSiteInfo = document.getElementById('bestSiteInfo');
+            if (nearbySites.length > 0) {
+                bestSiteInfo.innerHTML = "🤔 Recherche du meilleur site en cours...";
+                const results = await fetchWeatherForAllSites(nearbySites);
+                const bestSite = findBestSite(results);
+
+                if (bestSite) {
+                    bestSiteInfo.innerHTML = `💡 Le meilleur site pour les 2 prochains jours est : <strong>${bestSite.site}</strong> (${bestSite.commune}) avec <strong>${bestSite.favorablePeriods}</strong> périodes favorables.`;
+                    bestSiteInfo.setAttribute('data-site', bestSite.site);
+                    bestSiteInfo.style.cursor = 'pointer';
+                } else {
+                    bestSiteInfo.innerHTML = "😞 Aucun site favorable trouvé pour les 2 prochains jours, à moins de 30km.";
+                    bestSiteInfo.removeAttribute('data-site');
+                    bestSiteInfo.style.cursor = 'default';
+                }
+                loadSites();
+            } else {
+                bestSiteInfo.innerHTML = "😞 Aucun site de décollage trouvé à proximité.";
+            }
+        } catch (error) {
+            document.getElementById('geoMessage').textContent = "❓ On ne connait pas cette ville, vérifiez l'orthographe de la ville 🤷";
+        }
+    });
+}
 
 async function fetchWeatherForAllSites(sitesToCheck) {
     const results = [];
@@ -240,14 +250,18 @@ function findBestSite(results) {
     return results[0];
 }
 
-document.getElementById('bestSiteInfo').addEventListener('click', function () {
-    const siteName = this.getAttribute('data-site'); // Récupérer le nom du site depuis l'attribut
-    if (siteName) {
-        const cityDropdown = document.getElementById('cityDropdown');
-        cityDropdown.value = siteName; // Sélectionner le site dans le menu déroulant
-        fetchWeather(); // Appeler la fonction pour rechercher la météo
-    }
-});
+// document.getElementById('bestSiteInfo').addEventListener('click', function () {
+const bestSiteInfoButtton = document.getElementById('bestSiteInfo');
+if (bestSiteInfoButtton) {
+    bestSiteInfoButtton.addEventListener('click', async () => {
+        const siteName = this.getAttribute('data-site'); // Récupérer le nom du site depuis l'attribut
+        if (siteName) {
+            const cityDropdown = document.getElementById('cityDropdown');
+            cityDropdown.value = siteName; // Sélectionner le site dans le menu déroulant
+            fetchWeather(); // Appeler la fonction pour rechercher la météo
+        }
+    });
+}
 
 async function getCoordinates(city) {
     try {
@@ -276,9 +290,43 @@ async function getCoordinates(city) {
 /** INITIALISATION */
 // Charger les villes au chargement de la page
 document.addEventListener('DOMContentLoaded', async () => {
-    await loadSites();
+    if (document.getElementById('cityInput')) { await loadSites(); }
+    else { createMapSites(); }
     // loadCities();
 });
+
+function createMapSites() {// Initialisation de la carte
+    // Vérifiez si l'élément avec l'ID 'map' existe
+    const mapElement = document.getElementById('map');
+    if (!mapElement) {
+        console.error("L'élément avec l'ID 'map' est introuvable.");
+        return;
+    }
+
+    const map = L.map('map').setView([45.0, 3.0], 8); // Coordonnées centrées sur une région (exemple : Auvergne)
+
+    // Ajout des tuiles OpenStreetMap
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Chargement des données depuis data.json
+    fetch('data/data.json')
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(site => {
+                // Ajout d'un marqueur pour chaque site
+                L.marker([site.latitude, site.longitude])
+                    .addTo(map)
+                    .bindPopup(`<strong>${site.nom}</strong><br>${site.id}`);
+            });
+        })
+        .catch(error => {
+            console.error('Erreur lors du chargement des données :', error);
+            document.getElementById('errorMessage').textContent = "Impossible de charger les données des sites.";
+            document.getElementById('errorMessage').classList.remove('hidden');
+        })
+}
 
 async function loadCities() {
     try {
@@ -503,10 +551,14 @@ function loadForecastPeriod() {
     }
 }
 
-document.getElementById('forecastPeriod').addEventListener('change', () => {
-    saveForecastPeriod(); // Sauvegarder la période sélectionnée
-    fetchWeather(); // Recharger les graphiques avec la nouvelle période
-});
+const forecastPeriodButtton = document.getElementById('forecastPeriod');
+if (forecastPeriodButtton) {
+    forecastPeriodButtton.addEventListener('click', async () => {
+        saveForecastPeriod(); // Sauvegarder la période sélectionnée
+        fetchWeather(); // Recharger les graphiques avec la nouvelle période
+    });
+}
+
 function getWindDirectionText(degrees) {
     // Find the closest direction
     const closestDegree = Object.keys(WIND_DIRECTIONS)
