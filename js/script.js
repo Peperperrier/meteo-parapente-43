@@ -340,42 +340,77 @@ async function getCoordinates(city) {
 /** INITIALISATION */
 // Charger les villes au chargement de la page
 document.addEventListener('DOMContentLoaded', async () => {
-    if (document.getElementById('cityInput')) { await loadSites(); }
-    else { createMapSites(); }
-    // loadCities();
+    if (document.getElementById('cityInput')) {
+        await loadSites();
+        
+        // Vérifier si un site est spécifié dans l'URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const siteFromUrl = urlParams.get('site');
+        
+        if (siteFromUrl) {
+            console.log(siteFromUrl);
+            const cityDropdown = document.getElementById('cityDropdown');
+            // Attendre que le menu déroulant soit mis à jour
+            setTimeout(() => {
+                cityDropdown.value = siteFromUrl;
+                console.log("Valeur du menu déroulant:", cityDropdown.value);
+                fetchWeather(); // Charger la météo une fois que la valeur est définie
+            }, 100);
+            console.log(cityDropdown.value);
+            fetchWeather(); // Charger automatiquement la météo pour ce site
+        }
+    } else {
+        createMapSites();
+    }
 });
 
-function createMapSites() {// Initialisation de la carte
-    // Vérifiez si l'élément avec l'ID 'map' existe
+function createMapSites() {
     const mapElement = document.getElementById('map');
     if (!mapElement) {
         console.error("L'élément avec l'ID 'map' est introuvable.");
         return;
     }
 
-    const map = L.map('map').setView([45.0, 3.0], 8); // Coordonnées centrées sur une région (exemple : Auvergne)
+    const map = L.map('map').setView([45.0, 3.0], 8);
 
-    // Ajout des tuiles OpenStreetMap
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 
-    // Chargement des données depuis data.json
     fetch('data/data.json')
         .then(response => response.json())
         .then(data => {
             data.forEach(site => {
-                // Ajout d'un marqueur pour chaque site
-                L.marker([site.latitude, site.longitude])
+                const marker = L.marker([site.latitude, site.longitude])
                     .addTo(map)
-                    .bindPopup(`<strong>${site.nom}</strong><br>${site.id}`);
+                    .bindPopup(`
+                        <div class="popup-content">
+                            <h3 class="font-bold text-lg mb-2">${site.nom}</h3>
+                            <p class="text-sm mb-2">${site.description || ''}</p>
+                            <p class="text-sm mb-2">Orientation : ${site.orientation}</p>
+                            <a href="index.html?site=${encodeURIComponent(site.nom)}" 
+                               class="inline-block bg-yellow-400 text-white px-4 py-2 rounded-lg 
+                                      hover:bg-yellow-500 transition-colors text-sm text-center 
+                                      no-underline" 
+                               onclick="window.location.href='index.html?site=${encodeURIComponent(site.nom)}'; return false;">
+                                Voir la météo du site
+                            </a>
+                        </div>
+                    `);
+
+                marker.on('click', () => {
+                    marker.openPopup();
+                });
             });
         })
         .catch(error => {
             console.error('Erreur lors du chargement des données :', error);
-            document.getElementById('errorMessage').textContent = "Impossible de charger les données des sites.";
-            document.getElementById('errorMessage').classList.remove('hidden');
-        })
+            const errorMessage = document.getElementById('errorMessage');
+            if (errorMessage) {
+                errorMessage.textContent = "Impossible de charger les données des sites.";
+                errorMessage.classList.remove('hidden');
+            }
+        });
 }
 
 // Gestion du menu mobile
@@ -600,6 +635,7 @@ async function fetchWeather() {
     errorMessage.textContent = '';
 
     if (!cityDropdown) {
+        await new Promise(resolve => setTimeout(resolve, 150));
         errorMessage.textContent = 'Veuillez entrer un nom de ville';
         errorMessage.classList.remove('hidden');
         return;
