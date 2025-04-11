@@ -750,7 +750,7 @@ function loadForecastPeriod() {
 
 const forecastPeriodButtton = document.getElementById('forecastPeriod');
 if (forecastPeriodButtton) {
-    forecastPeriodButtton.addEventListener('click', async () => {
+    forecastPeriodButtton.addEventListener('change', async () => {
         saveForecastPeriod(); // Sauvegarder la période sélectionnée
         fetchWeather(); // Recharger les graphiques avec la nouvelle période
     });
@@ -1056,8 +1056,6 @@ function listLowWindPeriods(dates, windSpeeds, windDirections, windGusts, siteOr
     }
 
 }
-
-
 
 window.addEventListener('resize', function () {
     if (windGustsChart) {
