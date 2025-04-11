@@ -181,8 +181,8 @@ transform translate-x-full transition-transform duration-300 ease-in-out hidden 
             </div>
 
             <!-- Weather Display Section -->
-            <div id="weatherDisplaySection" class="hidden p-6 bg-white">
-                <div id="weatherInfo" class="hidden p-6 bg-white">
+            <div id="weatherDisplaySection" class="hidden p-4 bg-white">
+                <div id="weatherInfo" class="hidden bg-white">
                     <div class="text-center mb-2">
                         <h2 id="cityName" class="text-3xl font-bold text-blue-800"></h2>
                         <div id="additionalInfo" class="text-lg text-gray-600 mt-1"></div>
@@ -190,50 +190,48 @@ transform translate-x-full transition-transform duration-300 ease-in-out hidden 
                         <div class="grid grid-cols-4 gap-2 mt-4 overflow-x-auto min-w-full">
                             <!-- Current Weather Card -->
                             <div
-                                class="bg-gradient-to-br from-blue-50 to-blue-100 p-3 rounded-xl shadow-sm transform hover:scale-102 transition-all min-w-[120px]">
+                                class="bg-gradient-to-br from-blue-50 to-blue-100 p-3 rounded-xl shadow-sm transform hover:scale-102 transition-all min-w-[50px]">
                                 <div class="flex items-center justify-center mb-2">
                                     <i class="fas fa-cloud text-blue-600 text-xl"></i>
                                 </div>
-                                <h3 class="text-blue-800 font-medium text-sm whitespace-nowrap">Météo Actuelle</h3>
-                                <div class="flex items-center justify-center gap-2 mt-1">
-                                    <div id="weatherIcon" class="text-2xl"></div>
+                                <h3 class="text-blue-800 font-medium text-sm whitespace-nowrap">Actuelle</h3>
+                                <div class="flex items-center justify-center gap-1 mt-6">
+                                    <div id="weatherIcon" class="text-1xl"></div>
                                     <div id="temperature" class="text-xl font-bold text-blue-600"></div>
                                 </div>
                             </div>
 
-                            <!-- Wind Speed Card -->
-                            <div
-                                class="bg-gradient-to-br from-blue-50 to-blue-100 p-3 rounded-xl shadow-sm transform hover:scale-102 transition-all min-w-[120px]">
-                                <div class="flex items-center justify-center mb-2">
-                                    <i class="fas fa-wind text-blue-600 text-xl"></i>
-                                </div>
-                                <h3 class="text-blue-800 font-medium text-sm whitespace-nowrap">Vitesse du Vent</h3>
-                                <div id="windSpeed" class="text-xl font-bold mt-1"></div>
-                            </div>
-
                             <!-- Wind Direction Card -->
                             <div
-                                class="bg-gradient-to-br from-blue-50 to-blue-100 p-3 rounded-xl shadow-sm transform hover:scale-102 transition-all min-w-[120px]">
+                                class="bg-gradient-to-br from-blue-50 to-blue-100 p-3 rounded-xl shadow-sm transform hover:scale-102 transition-all min-w-[50px]">
                                 <div class="flex items-center justify-center mb-2">
                                     <i class="fas fa-compass text-blue-600 text-xl"></i>
                                 </div>
                                 <h3 class="text-blue-800 font-medium text-sm whitespace-nowrap">Direction</h3>
                                 <div class="flex items-center justify-center">
-                                    <div id="windDirection" class="text-xl font-bold mt-1"></div>
-                                    <div class="ml-2">
-                                        <i class="fas fa-long-arrow-alt-up text-lg wind-direction-arrow"
-                                            id="windDirectionArrow"></i>
-                                    </div>
+                                    <div id="windDirection" class="text-xl font-bold mt-6"></div>
                                 </div>
+                            </div>
+
+                            <!-- Wind Speed Card -->
+                            <div
+                                class="bg-gradient-to-br from-blue-50 to-blue-100 p-3 rounded-xl shadow-sm transform hover:scale-102 transition-all min-w-[50px]">
+                                <div class="flex items-center justify-center mb-2">
+                                    <i class="fas fa-wind text-blue-600 text-xl"></i>
+                                </div>
+                                <h3 class="text-blue-800 font-medium text-sm whitespace-nowrap">Vent</h3>
+                                <h4 class="text-blue-800 font-xs text-sm whitespace-nowrap">(km/h)</h4>
+                                <div id="windSpeed" class="text-xl font-bold mt-1"></div>
                             </div>
 
                             <!-- Wind Gusts Card -->
                             <div
-                                class="bg-gradient-to-br from-blue-50 to-blue-100 p-3 rounded-xl shadow-sm transform hover:scale-102 transition-all min-w-[120px]">
+                                class="bg-gradient-to-br from-blue-50 to-blue-100 p-3 rounded-xl shadow-sm transform hover:scale-102 transition-all min-w-[50px]">
                                 <div class="flex items-center justify-center mb-2">
                                     <i class="fas fa-bolt text-amber-500 text-xl"></i>
                                 </div>
                                 <h3 class="text-blue-800 font-medium text-sm whitespace-nowrap">Rafales</h3>
+                                <h4 class="text-blue-800 font-xs text-sm whitespace-nowrap">(km/h)</h4>
                                 <div id="windGusts" class="text-xl font-bold mt-1"></div>
                             </div>
                         </div>
@@ -306,7 +304,7 @@ transform translate-x-full transition-transform duration-300 ease-in-out hidden 
     </footer>
 
     <!-- Additional script content -->
-    <script>
+    <!-- <script>
         // This would be added to your existing script.js file
         document.addEventListener('DOMContentLoaded', function () {
             // Animation for wind direction arrow
@@ -338,7 +336,7 @@ transform translate-x-full transition-transform duration-300 ease-in-out hidden 
                 i++;
             }, 2000);
         });
-    </script>
+    </script> -->
 
     <script src="js/script.js"></script>
 </body>

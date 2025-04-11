@@ -637,7 +637,7 @@ async function fetchWeather() {
             </div>
         `;
 
-        document.getElementById('temperature').textContent = `${Math.round(weatherData.current_weather.temperature)}°C`;
+        document.getElementById('temperature').textContent = `${Math.round(weatherData.current_weather.temperature)}°`;
 
         // Ajouter une icône météo
         const weatherIcon = document.getElementById('weatherIcon');
@@ -648,7 +648,7 @@ async function fetchWeather() {
         const currentWindSpeed = weatherData.current_weather.windspeed;
         const currentWindDirection = weatherData.current_weather.winddirection;
 
-        document.getElementById('windSpeed').textContent = `${currentWindSpeed.toFixed(1)} km/h`;
+        document.getElementById('windSpeed').textContent = `${currentWindSpeed.toFixed(1)}`;//km/h
         document.getElementById('windDirection').textContent = getWindDirectionText(currentWindDirection);
 
         // Get current hour index and show current wind gust
@@ -662,7 +662,7 @@ async function fetchWeather() {
             weatherData.hourly.windgusts_10m[currentHourIndex] :
             "N/A";
 
-        document.getElementById('windGusts').textContent = `${typeof currentWindGust === 'number' ? currentWindGust.toFixed(1) : currentWindGust} km/h`;
+        document.getElementById('windGusts').textContent = `${typeof currentWindGust === 'number' ? currentWindGust.toFixed(1) : currentWindGust} `;
 
         // Prepare data for charts
         const hourlyDates = weatherData.hourly.time.slice(0, forecastPeriod * 24); // Ajuster en fonction de la période
