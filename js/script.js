@@ -142,7 +142,7 @@ async function displayBestSites(city, nearbySites) {
             nearbySites = findNearbySites(coordinates.latitude, coordinates.longitude);
             console.log(city);
         }
-        
+
         const bestSiteInfo1 = document.getElementById('bestSiteInfoToday');
         const bestSiteInfo2 = document.getElementById('bestSiteInfoTomorrow');
         if (nearbySites.length > 0) {
@@ -261,7 +261,7 @@ async function fetchWeatherForAllSites(sitesToCheck, day) {
 function findBestSite(results) {
     // Trier les sites par nombre de périodes favorables (ordre décroissant)
     results.sort((a, b) => b.favorablePeriods - a.favorablePeriods);
-    
+
     // Retourner le site avec le plus de périodes favorables seulement si > 0
     if (results[0] && results[0].favorablePeriods > 0) {
         return results[0];
@@ -300,9 +300,9 @@ function updateDynamicMessagesVisibility() {
     const bestSiteInfoTomorrow = document.getElementById('bestSiteInfoTomorrow');
 
     // Vérifie si l'un des éléments contient du texte
-    const hasContent = geoMessage.textContent.trim() !== '' || 
-                      bestSiteInfoToday.textContent.trim() !== '' ||
-                      bestSiteInfoTomorrow.textContent.trim() !== '';
+    const hasContent = geoMessage.textContent.trim() !== '' ||
+        bestSiteInfoToday.textContent.trim() !== '' ||
+        bestSiteInfoTomorrow.textContent.trim() !== '';
 
     // Affiche ou masque le conteneur en fonction de la présence de contenu
     if (hasContent) {
@@ -682,8 +682,14 @@ async function fetchWeather() {
         createWindDirectionChart(formattedDates, hourlyWindDirections);
         listLowWindPeriods(formattedDates, hourlyWindSpeeds, hourlyWindDirections, hourlyWindGusts, site.orientation);
 
-        // Show weather info
-        weatherInfo.classList.remove('hidden');
+        // Après avoir affiché les données météo
+        document.getElementById('weatherInfo').classList.remove('hidden');
+        document.getElementById('weatherDisplaySection').classList.remove('hidden');
+        // Ajouter le défilement smooth vers la section
+        document.getElementById('weatherDisplaySection').scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
 
     } catch (error) {
         errorMessage.textContent = error.message;
