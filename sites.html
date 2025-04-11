@@ -9,10 +9,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-   <!-- Leaflet.js CSS -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<!-- Leaflet.js JS -->
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Leaflet.js CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Leaflet.js JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <!-- <a href="index.html"class="fas fa-parachute-box text-yellow-400 text-3xl md:text-4xl mr-3"></a> -->
     <style>
         .parallax-bg {
@@ -22,33 +22,85 @@
             background-repeat: no-repeat;
             background-size: cover;
         }
+
         .glass-card {
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
+
         .wind-direction-arrow {
             transition: transform 0.5s ease;
         }
+
         .title-banner {
             background: linear-gradient(90deg, #1e40af, #3b82f6, #1e40af);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        #mobileMenu {
+            box-shadow: -2px 0 10px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+        }
+
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out;
+            z-index: 999;
+        }
+
+        .menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
         }
     </style>
 </head>
 
 <body class="min-h-screen flex flex-col font-sans bg-blue-50">
-<!-- Banner Title -->
-<div class="title-banner w-full p-4 md:p-6">
-    <div class="container mx-auto flex items-center justify-between">
-        <div class="flex items-center">
-            <a href="index.html"class="fas fa-parachute-box text-yellow-400 text-3xl md:text-4xl mr-3"></a>
-            <div>
-                <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold text-white">Chasseur de déco 🪂</h1>
-                <p class="text-sm md:text-base text-blue-100">Les meilleurs infos, pour les meilleurs spots</p>
+    <!-- Banner Title -->
+    <div class="title-banner w-full p-4 md:p-6">
+        <div class="container mx-auto flex items-center justify-between">
+            <div class="flex items-center">
+                <a href="index.html" class="fas fa-parachute-box text-yellow-400 text-3xl md:text-4xl mr-3"></a>
+                <div>
+                    <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold text-white">LeBonSpot 🪂</h1>
+                    <p class="text-sm md:text-base text-blue-100">Les meilleurs infos, pour les meilleurs spots</p>
+                </div>
             </div>
+            <div class="hidden md:flex items-center space-x-4 text-white">
+                <a href="#" class="hover:text-yellow-400 transition-colors flex items-center">
+                    <i class="fas fa-info-circle mr-1"></i>
+                    <span>À propos</span>
+                </a>
+                <a href="sites.html" class="hover:text-yellow-400 transition-colors flex items-center">
+                    <i class="fas fa-map-marked-alt mr-1"></i>
+                    <span>Sites</span>
+                </a>
+                <a href="#" class="hover:text-yellow-400 transition-colors flex items-center">
+                    <i class="fas fa-users mr-1"></i>
+                    <span>Communauté</span>
+                </a>
+            </div>
+            <button class="md:hidden text-white text-xl">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
-        <div class="hidden md:flex items-center space-x-4 text-white">
+    </div>
+
+    <!-- Menu mobile -->
+    <div id="mobileMenu" class="fixed top-0 right-0 h-full w-64 bg-blue-900 text-white p-4 
+    transform translate-x-full transition-transform duration-300 ease-in-out hidden md:hidden">
+        <button class="absolute top-4 right-4 text-white hover:text-yellow-400" id="closeMenu">
+            <i class="fas fa-times text-xl"></i>
+        </button>
+        <div class="flex flex-col space-y-4 mt-12">
             <a href="#" class="hover:text-yellow-400 transition-colors flex items-center">
                 <i class="fas fa-info-circle mr-1"></i>
                 <span>À propos</span>
@@ -62,14 +114,10 @@
                 <span>Communauté</span>
             </a>
         </div>
-        <button class="md:hidden text-white text-xl">
-            <i class="fas fa-bars"></i>
-        </button>
     </div>
-</div>
 
     <!-- Hero Image -->
-    <div class="parallax-bg w-full h-12 md:h-16 relative">
+    <div class="parallax-bg w-full h-4 md:h-4 relative">
         <!-- Optional content for hero if needed -->
     </div>
 
@@ -79,7 +127,7 @@
             <h2 class="text-xl md:text-2xl font-bold text-center text-blue-800 p-4">Carte des sites de décollage</h2>
             <div id="map" class="w-full h-[600px] rounded-b-3xl"></div>
         </div>
-        
+
         <!-- Error Message -->
         <div id="errorMessage" class="bg-red-100 text-red-700 p-4 rounded-xl mt-4 hidden"></div>
     </div>
@@ -90,10 +138,10 @@
             <div class="flex flex-col md:flex-row justify-between items-center">
                 <div class="mb-4 md:mb-0">
                     <h3 class="text-xl font-bold flex items-center">
-                        <span class="mr-2">Par amour de la montagne et du vol libre</span>
+                        <span class="mr-2">Outil de recherche des meilleurs spots de parapente</span>
                         <i class="fas fa-mountain text-yellow-400"></i>
                     </h3>
-                    <p class="text-blue-200 text-sm mt-1">Vous aidez, partager, voler, s'informer</p>
+                    <p class="text-blue-200 text-sm mt-1">Analyse météo et meilleurs plans</p>
                 </div>
                 <div class="flex space-x-6">
                     <a href="#" class="hover:text-yellow-400 transition-colors">

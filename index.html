@@ -17,17 +17,43 @@
             background-repeat: no-repeat;
             background-size: cover;
         }
+
         .glass-card {
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
+
         .wind-direction-arrow {
             transition: transform 0.5s ease;
         }
+
         .title-banner {
             background: linear-gradient(90deg, #1e40af, #3b82f6, #1e40af);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        #mobileMenu {
+            box-shadow: -2px 0 10px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+        }
+
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out;
+            z-index: 999;
+        }
+
+        .menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
         }
     </style>
 </head>
@@ -37,7 +63,7 @@
     <div class="title-banner w-full p-4 md:p-6">
         <div class="container mx-auto flex items-center justify-between">
             <div class="flex items-center">
-                <a href="index.html"class="fas fa-parachute-box text-yellow-400 text-3xl md:text-4xl mr-3"></a>
+                <a href="index.html" class="fas fa-parachute-box text-yellow-400 text-3xl md:text-4xl mr-3"></a>
                 <div>
                     <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold text-white">LeBonSpot 🪂</h1>
                     <p class="text-sm md:text-base text-blue-100">Les meilleurs infos, pour les meilleurs spots</p>
@@ -63,6 +89,28 @@
         </div>
     </div>
 
+    <!-- Menu mobile -->
+    <div id="mobileMenu" class="fixed top-0 right-0 h-full w-64 bg-blue-900 text-white p-4 
+transform translate-x-full transition-transform duration-300 ease-in-out hidden md:hidden">
+        <button class="absolute top-4 right-4 text-white hover:text-yellow-400" id="closeMenu">
+            <i class="fas fa-times text-xl"></i>
+        </button>
+        <div class="flex flex-col space-y-4 mt-12">
+            <a href="#" class="hover:text-yellow-400 transition-colors flex items-center">
+                <i class="fas fa-info-circle mr-1"></i>
+                <span>À propos</span>
+            </a>
+            <a href="sites.html" class="hover:text-yellow-400 transition-colors flex items-center">
+                <i class="fas fa-map-marked-alt mr-1"></i>
+                <span>Sites</span>
+            </a>
+            <a href="#" class="hover:text-yellow-400 transition-colors flex items-center">
+                <i class="fas fa-users mr-1"></i>
+                <span>Communauté</span>
+            </a>
+        </div>
+    </div>
+
     <!-- Hero Image -->
     <div class="parallax-bg w-full h-12 md:h-16 relative">
         <!-- Optional content for hero if needed -->
@@ -74,7 +122,7 @@
             <!-- Search Section -->
             <div class="bg-gradient-to-r from-blue-600 to-sky-400 p-6 text-white">
                 <h2 class="text-xl md:text-2xl font-bold mb-4">Trouvez les meilleurs spots de vol</h2>
-                
+
                 <div class="space-y-4">
                     <!-- City Search -->
                     <div>
@@ -83,7 +131,8 @@
                             <div class="relative flex-grow">
                                 <input id="cityInput" type="text" placeholder="Saisissez votre ville"
                                     class="w-full p-3 pr-10 rounded-xl text-gray-800 focus:outline-none focus:ring-2 focus:ring-yellow-400">
-                                <button id="geoLocateButton" class="absolute right-3 top-3 text-gray-500 hover:text-blue-600">
+                                <button id="geoLocateButton"
+                                    class="absolute right-3 top-3 text-gray-500 hover:text-blue-600">
                                     <i class="fas fa-location-arrow"></i>
                                 </button>
                             </div>
@@ -93,7 +142,7 @@
                             </button>
                         </div>
                     </div>
-                    
+
                     <!-- Sites Dropdown -->
                     <div>
                         <label class="block text-sm font-medium mb-1">Sites de décollage:</label>
@@ -109,11 +158,25 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Dynamic messages -->
-                <div id="dynamicContent" class="mt-4">
-                    <div id="geoMessage" class="text-center text-yellow-200 font-medium mb-2"></div>
-                    <div id="bestSiteInfo" class="text-center mt-2 text-yellow-100 font-medium hover:underline cursor-pointer"></div>
+                <!-- Dynamic messages -->
+                <div id="dynamicContent" class="mt-6 space-y-4 hidden">
+                    <div id="geoMessage" class="text-center py-3 px-4 rounded-xl bg-gradient-to-r from-blue-700/30 to-sky-700/30 
+    backdrop-blur-sm border border-white/20 transform transition-all duration-300 
+    hover:scale-102 text-yellow-100 font-medium shadow-lg">
+                    </div>
+
+                    <div id="bestSiteInfoToday" class="text-center mt-4 py-3 px-4 rounded-xl bg-gradient-to-r from-yellow-500/20 to-amber-500/20 
+    backdrop-blur-sm border border-white/20 transform transition-all duration-300 
+    hover:scale-102 text-yellow-100 font-medium shadow-lg cursor-pointer 
+    hover:bg-gradient-to-r hover:from-yellow-500/30 hover:to-amber-500/30">
+                    </div>
+                    <div id="bestSiteInfoTomorrow" class="text-center mt-4 py-3 px-4 rounded-xl bg-gradient-to-r from-yellow-500/20 to-amber-500/20 
+    backdrop-blur-sm border border-white/20 transform transition-all duration-300 
+    hover:scale-102 text-yellow-100 font-medium shadow-lg cursor-pointer 
+    hover:bg-gradient-to-r hover:from-yellow-500/30 hover:to-amber-500/30">
+                    </div>
                 </div>
             </div>
 
@@ -122,7 +185,7 @@
                 <div class="text-center mb-8">
                     <h2 id="cityName" class="text-3xl font-bold text-blue-800"></h2>
                     <div id="additionalInfo" class="text-lg text-gray-600 mt-1"></div>
-                    
+
                     <!-- Current Weather -->
                     <div class="flex flex-col items-center justify-center my-6">
                         <div class="flex items-center gap-3">
@@ -130,18 +193,20 @@
                             <div id="temperature" class="text-6xl font-bold text-blue-600"></div>
                         </div>
                     </div>
-                    
+
                     <!-- Wind Data Cards -->
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6">
-                        <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-5 rounded-2xl shadow-md transform hover:scale-105 transition-all">
+                        <div
+                            class="bg-gradient-to-br from-blue-50 to-blue-100 p-5 rounded-2xl shadow-md transform hover:scale-105 transition-all">
                             <div class="flex items-center justify-center mb-3">
                                 <i class="fas fa-wind text-blue-600 text-2xl"></i>
                             </div>
                             <h3 class="text-blue-800 font-medium">Vitesse du Vent</h3>
                             <div id="windSpeed" class="text-2xl font-bold mt-1"></div>
                         </div>
-                        
-                        <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-5 rounded-2xl shadow-md transform hover:scale-105 transition-all">
+
+                        <div
+                            class="bg-gradient-to-br from-blue-50 to-blue-100 p-5 rounded-2xl shadow-md transform hover:scale-105 transition-all">
                             <div class="flex items-center justify-center mb-3">
                                 <i class="fas fa-compass text-blue-600 text-2xl"></i>
                             </div>
@@ -149,12 +214,14 @@
                             <div class="flex items-center justify-center">
                                 <div id="windDirection" class="text-2xl font-bold mt-1"></div>
                                 <div class="ml-2">
-                                    <i class="fas fa-long-arrow-alt-up text-xl wind-direction-arrow" id="windDirectionArrow"></i>
+                                    <i class="fas fa-long-arrow-alt-up text-xl wind-direction-arrow"
+                                        id="windDirectionArrow"></i>
                                 </div>
                             </div>
                         </div>
-                        
-                        <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-5 rounded-2xl shadow-md transform hover:scale-105 transition-all">
+
+                        <div
+                            class="bg-gradient-to-br from-blue-50 to-blue-100 p-5 rounded-2xl shadow-md transform hover:scale-105 transition-all">
                             <div class="flex items-center justify-center mb-3">
                                 <i class="fas fa-bolt text-amber-500 text-2xl"></i>
                             </div>
@@ -178,7 +245,7 @@
                             </select>
                         </div>
                     </div>
-                    
+
                     <!-- Charts -->
                     <div class="space-y-8">
                         <div class="bg-white rounded-2xl p-4 shadow-md">
@@ -187,7 +254,7 @@
                                 <canvas id="windGustsChart"></canvas>
                             </div>
                         </div>
-                        
+
                         <div class="bg-white rounded-2xl p-4 shadow-md">
                             <h4 class="text-lg font-medium text-gray-700 mb-4">Direction du vent</h4>
                             <div class="h-64">
@@ -198,7 +265,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Error Message -->
         <div id="errorMessage" class="bg-red-100 text-red-700 p-4 rounded-xl mt-4 hidden"></div>
     </div>
@@ -212,7 +279,7 @@
                         <span class="mr-2">Outil de recherche des meilleurs spots de parapente</span>
                         <i class="fas fa-mountain text-yellow-400"></i>
                     </h3>
-                    <p class="text-blue-200 text-sm mt-1">Vous aidez, partager, voler, s'informer</p>
+                    <p class="text-blue-200 text-sm mt-1">Analyse météo et meilleurs plans</p>
                 </div>
                 <div class="flex space-x-6">
                     <a href="#" class="hover:text-yellow-400 transition-colors">
@@ -232,7 +299,7 @@
     <!-- Additional script content -->
     <script>
         // This would be added to your existing script.js file
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Animation for wind direction arrow
             function updateWindDirectionArrow(direction) {
                 const arrow = document.getElementById('windDirectionArrow');
@@ -244,16 +311,16 @@
                         'S': 180, 'SSW': 202.5, 'SW': 225, 'WSW': 247.5,
                         'W': 270, 'WNW': 292.5, 'NW': 315, 'NNW': 337.5
                     };
-                    
+
                     const degree = dirMap[direction] || 0;
                     arrow.style.transform = `rotate(${degree}deg)`;
                 }
             }
-            
+
             // You would call this function after updating the wind direction display
             // For example, after setting windDirection.textContent = directionText;
             // updateWindDirectionArrow(directionText);
-            
+
             // This is just for demo - you would integrate this with your actual code
             const mockDirections = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
             let i = 0;
