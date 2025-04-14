@@ -6,6 +6,8 @@ let sites = [];
 // variables for charts
 let windDirectionChart = null;
 let windGustsChart = null;
+// variables for forecast period
+let isForecastPeriodChange = false;
 //  const for display
 const WIND_DIRECTIONS = {
     180: 'S',
@@ -47,7 +49,6 @@ const weatherIcons = {
     96: '⛈️', // Orage avec grêle légère
     99: '⛈️'  // Orage avec grêle forte
 };
-
 
 /** GEOLOCALISATION */
 
@@ -342,11 +343,11 @@ async function getCoordinates(city) {
 document.addEventListener('DOMContentLoaded', async () => {
     if (document.getElementById('cityInput')) {
         await loadSites();
-        
+
         // Vérifier si un site est spécifié dans l'URL
         const urlParams = new URLSearchParams(window.location.search);
         const siteFromUrl = urlParams.get('site');
-        
+
         if (siteFromUrl) {
             console.log(siteFromUrl);
             const cityDropdown = document.getElementById('cityDropdown');
@@ -356,8 +357,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 console.log("Valeur du menu déroulant:", cityDropdown.value);
                 fetchWeather(); // Charger la météo une fois que la valeur est définie
             }, 100);
-            // console.log(cityDropdown.value);
-            // fetchWeather(); // Charger automatiquement la météo pour ce site
+            console.log(cityDropdown.value);
+            fetchWeather(); // Charger automatiquement la météo pour ce site
         }
     } else {
         createMapSites();
@@ -377,26 +378,52 @@ function createMapSites() {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 
+    // marker de couleur pour la map
+    var blueIcon = new L.Icon({
+        iconUrl: 'img/marker-icon-2x-blue.png',
+        shadowUrl: 'img/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    });
+
+    var greenIcon = new L.Icon({
+        iconUrl: 'img/marker-icon-2x-green.png',
+        shadowUrl: 'img/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    });
+
     fetch('data/data.json')
         .then(response => response.json())
         .then(data => {
             data.forEach(site => {
-                const marker = L.marker([site.latitude, site.longitude])
-                    .addTo(map)
-                    .bindPopup(`
-                        <div class="popup-content">
-                            <h3 class="font-bold text-lg mb-2">${site.nom}</h3>
-                            <p class="text-sm mb-2">${site.description || ''}</p>
-                            <p class="text-sm mb-2">Orientation : ${site.orientation}</p>
-                            <a href="index.html?site=${encodeURIComponent(site.nom)}" 
-                               class="inline-block bg-yellow-400 text-white px-4 py-2 rounded-lg 
-                                      hover:bg-yellow-500 transition-colors text-sm text-center 
-                                      no-underline" 
-                               onclick="window.location.href='index.html?site=${encodeURIComponent(site.nom)}'; return false;">
-                                Voir la météo du site
-                            </a>
-                        </div>
-                    `);
+                // Définir la couleur du marqueur en fonction de la présence d'une balise
+                const iconeColor = site.balise && site.balise.length > 0 ? greenIcon : blueIcon;
+
+                // Utiliser un cercle comme marqueur avec la couleur définie
+                const marker = L.marker([site.latitude, site.longitude], {
+                    icon: iconeColor
+                }).addTo(map);
+
+                // Ajouter un popup au marqueur
+                marker.bindPopup(`
+                    <div class="popup-content">
+                        <h3 class="font-bold text-lg mb-2">${site.nom}</h3>
+                        <p class="text-sm mb-2">${site.description || ''}</p>
+                        <p class="text-sm mb-2">Orientation : ${site.orientation}</p>
+                        <a href="index.html?site=${encodeURIComponent(site.nom)}" 
+                           class="inline-block bg-yellow-400 text-white px-4 py-2 rounded-lg 
+                                  hover:bg-yellow-500 transition-colors text-sm text-center 
+                                  no-underline" 
+                           onclick="window.location.href='index.html?site=${encodeURIComponent(site.nom)}'; return false;">
+                            Voir la météo du site
+                        </a>
+                    </div>
+                `);
 
                 marker.on('click', () => {
                     marker.openPopup();
@@ -719,13 +746,15 @@ async function fetchWeather() {
         listLowWindPeriods(formattedDates, hourlyWindSpeeds, hourlyWindDirections, hourlyWindGusts, site.orientation);
 
         // Après avoir affiché les données météo
-        document.getElementById('weatherInfo').classList.remove('hidden');
-        document.getElementById('weatherDisplaySection').classList.remove('hidden');
-        // Ajouter le défilement smooth vers la section
-        document.getElementById('weatherDisplaySection').scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-        });
+        if (!isForecastPeriodChange) {
+            document.getElementById('weatherInfo').classList.remove('hidden');
+            document.getElementById('weatherDisplaySection').classList.remove('hidden');
+            // Ajouter le défilement smooth vers la section
+            document.getElementById('weatherDisplaySection').scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
 
     } catch (error) {
         errorMessage.textContent = error.message;
@@ -748,11 +777,13 @@ function loadForecastPeriod() {
     }
 }
 
-const forecastPeriodButtton = document.getElementById('forecastPeriod');
-if (forecastPeriodButtton) {
-    forecastPeriodButtton.addEventListener('change', async () => {
+const forecastPeriodButton = document.getElementById('forecastPeriod');
+if (forecastPeriodButton) {
+    forecastPeriodButton.addEventListener('change', async () => {
+        isForecastPeriodChange = true; // Indiquer que le changement provient de forecastPeriod
         saveForecastPeriod(); // Sauvegarder la période sélectionnée
-        fetchWeather(); // Recharger les graphiques avec la nouvelle période
+        await fetchWeather(); // Recharger les graphiques avec la nouvelle période
+        isForecastPeriodChange = false; // Réinitialiser le drapeau après l'appel
     });
 }
 
