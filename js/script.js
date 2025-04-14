@@ -356,8 +356,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 console.log("Valeur du menu déroulant:", cityDropdown.value);
                 fetchWeather(); // Charger la météo une fois que la valeur est définie
             }, 100);
-            console.log(cityDropdown.value);
-            fetchWeather(); // Charger automatiquement la météo pour ce site
+            // console.log(cityDropdown.value);
+            // fetchWeather(); // Charger automatiquement la météo pour ce site
         }
     } else {
         createMapSites();
