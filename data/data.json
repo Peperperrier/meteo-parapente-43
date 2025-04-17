@@ -142,7 +142,7 @@
     },
     {
         "id": "335",
-        "nom": "SAINT SEBASTIEN (NE) 🚩",
+        "nom": "SAINT SEBASTIEN (NE)",
         "code": "335",
         "commune": "ST PAUL LE JEUNE",
         "code_postal": "07460",
@@ -153,10 +153,7 @@
         "altitude": 429,
         "secteurs_vent": "N;NESecteurs de vent défavorables : S;SO;O;NOConditions aérologiques idéales : Non renseigné",
         "orientation_all": "N;NE",
-        "orientation": "NE",
-        "balise": [
-            "https://www.balisemeteo.com/balise.php?idBalise=71"
-        ]
+        "orientation": "NE"
     },
     {
         "id": "1070",
@@ -1470,7 +1467,7 @@
     },
     {
         "id": "448",
-        "nom": "SAURIER-CRESTE - PLATEAU DE LACHAUX (S)",
+        "nom": "SAURIER-CRESTE - PLATEAU DE LACHAUX (S) 🚩",
         "code": "448",
         "commune": "SAINT DIERY",
         "code_postal": "63320",
@@ -1481,11 +1478,14 @@
         "altitude": 840,
         "secteurs_vent": "S;SOSecteurs de vent défavorables : N;NE;E;SE;O;NOConditions aérologiques idéales : Vent météo secteur S/SO pas trop fort",
         "orientation_all": "S;SO",
-        "orientation": "S"
+        "orientation": "S",
+        "balise": [
+            "https://www.balisemeteo.com/balise.php?idBalise=46"
+        ]
     },
     {
         "id": "447",
-        "nom": "SAURIER-CRESTE - PUY DE ROCHECOURBIERE (SE)",
+        "nom": "SAURIER-CRESTE - PUY DE ROCHECOURBIERE (SE) 🚩",
         "code": "447",
         "commune": "SAINT DIERY",
         "code_postal": "63320",
@@ -1496,7 +1496,10 @@
         "altitude": 870,
         "secteurs_vent": "SE;SSecteurs de vent défavorables : N;NE;SO;OConditions aérologiques idéales : Vent météo de sud ou pas de vent, site favorable dès le matin pour le décollage S/SE.",
         "orientation_all": "SE;S",
-        "orientation": "SE"
+        "orientation": "SE",
+        "balise": [
+            "https://www.balisemeteo.com/balise.php?idBalise=46"
+        ]
     },
     {
         "id": "590",
@@ -1591,5 +1594,194 @@
         ],
         "orientation_all": "SO;O",
         "orientation": "SO"
+    },
+    {
+        "id": "13312",
+        "nom": "CRET DE CHASSENOUD (N)",
+        "code": "13312",
+        "commune": "LONGES",
+        "code_postal": "69420",
+        "activite": "parapente  [ déco ]",
+        "statut": "actif",
+        "latitude": 45.4894,
+        "longitude": 4.7053,
+        "altitude": 744,
+        "secteurs_vent": "NSecteurs de vent défavorables : E;SE;S;SOConditions aérologiques idéales : Non renseigné",
+        "orientation_all": "N",
+        "orientation": "N"
+    },
+    {
+        "id": "14125",
+        "nom": "CROIX RAMPAU (N)",
+        "code": "14125",
+        "commune": "POLEYMIEUX AU MONT D'OR",
+        "code_postal": "69250",
+        "activite": "parapente delta  [ déco ]",
+        "statut": "actif",
+        "latitude": 45.8677,
+        "longitude": 4.8014,
+        "altitude": 454,
+        "secteurs_vent": "NSecteurs de vent défavorables : NE;E;SE;S;SO;O;NOConditions aérologiques idéales : Site très technique ; Exploitable exclusivement par vent de Nord compris entre 10 et 17 km/h.",
+        "orientation_all": "N",
+        "orientation": "N"
+    },
+    {
+        "id": "1337",
+        "nom": "LA LIOUFFE (NE) 🚩",
+        "code": "1337",
+        "commune": "ANCY",
+        "code_postal": "69490",
+        "activite": "parapente  [ déco ]",
+        "statut": "actif",
+        "latitude": 45.8385,
+        "longitude": 4.4949,
+        "altitude": 709,
+        "secteurs_vent": "N;NESecteurs de vent défavorables : E;SE;S;SO;O;NOConditions aérologiques idéales : Thermodynamique jusqu' à 20 km/h (moyenne indiquée par la balise)",
+        "orientation_all": "N;NE",
+        "orientation": "NE",
+        "balise": [
+            "https://www.balisemeteo.com/balise.php?idBalise=5039"
+        ]
+    },
+    {
+        "id": "5105",
+        "nom": "LA LIOUFFE 🚩",
+        "code": "5105",
+        "commune": "ANCY",
+        "code_postal": "69490",
+        "activite": "parapente  [ déco ]",
+        "statut": "actif",
+        "latitude": 45.838,
+        "longitude": 4.4994,
+        "altitude": 748,
+        "secteurs_vent": "Non renseignéSecteurs de vent défavorables : Non renseignéConditions aérologiques idéales : Non renseigné",
+        "orientation_all": "Non renseigné",
+        "orientation": null,
+        "balise": [
+            "https://www.balisemeteo.com/balise.php?idBalise=5039"
+        ]
+    },
+    {
+        "id": "5107",
+        "nom": "LES MARTINIERES (NO)",
+        "code": "5107",
+        "commune": "SAINT-FORGEUX",
+        "code_postal": "69490",
+        "activite": "parapente  [ déco ]",
+        "statut": "actif",
+        "latitude": 45.8439,
+        "longitude": 4.4833,
+        "altitude": 634,
+        "secteurs_vent": "NOSecteurs de vent défavorables : Non renseignéConditions aérologiques idéales : Non renseigné",
+        "orientation_all": "NO",
+        "orientation": "NO"
+    },
+    {
+        "id": "13611",
+        "nom": "LETRA (NE)",
+        "code": "13611",
+        "commune": "LETRA",
+        "code_postal": "69620",
+        "activite": "parapente  [ déco ]",
+        "statut": "actif",
+        "latitude": 45.9562,
+        "longitude": 4.4906,
+        "altitude": 670,
+        "secteurs_vent": "N;NE;ESecteurs de vent défavorables : SE;S;SO;O;NOConditions aérologiques idéales : Thermiques et vent faible",
+        "orientation_all": "N;NE;E",
+        "orientation": "NE"
+    },
+    {
+        "id": "1979",
+        "nom": "MARENNES - PENTE-ECOLE (NO)",
+        "code": "1979",
+        "commune": "MARENNES",
+        "code_postal": "69970",
+        "activite": "parapente  [ pente école ]",
+        "statut": "actif",
+        "latitude": 45.6147,
+        "longitude": 4.9033,
+        "altitude": 229,
+        "secteurs_vent": "N;NE;NOSecteurs de vent défavorables : E;SE;S;SO;OConditions aérologiques idéales : Non renseigné",
+        "orientation_all": "N;NE;NO",
+        "orientation": "NO"
+    },
+    {
+        "id": "3014",
+        "nom": "MAZIEUX (S)",
+        "code": "3014",
+        "commune": "MONTROTTIER",
+        "code_postal": "69770",
+        "activite": "parapente  [ déco ]",
+        "statut": "actif autorisation systematique requise",
+        "latitude": 45.8123,
+        "longitude": 4.4785,
+        "altitude": 839,
+        "secteurs_vent": "S;SOSecteurs de vent défavorables : N;NE;E;SE;O;NOConditions aérologiques idéales : Non renseigné",
+        "orientation_all": "S;SO",
+        "orientation": "S"
+    },
+    {
+        "id": "5106",
+        "nom": "PLAT DU MONT (NE) 🚩",
+        "code": "5106",
+        "commune": "SAINT-FORGEUX",
+        "code_postal": "69490",
+        "activite": "parapente  [ déco ]",
+        "statut": "actif",
+        "latitude": 45.8469,
+        "longitude": 4.4713,
+        "altitude": 596,
+        "secteurs_vent": "NESecteurs de vent défavorables : Non renseignéConditions aérologiques idéales : Non renseigné",
+        "orientation_all": "NE",
+        "orientation": "NE",
+        "balise": [
+            "https://www.balisemeteo.com/balise.php?idBalise=5038"
+        ]
+    },
+    {
+        "id": "641",
+        "nom": "QUINCIE - RAMIERS (NO)",
+        "code": "641",
+        "commune": "QUINCIE",
+        "code_postal": "69430",
+        "activite": "parapente delta  [ déco ]",
+        "statut": "actif",
+        "latitude": 46.1075,
+        "longitude": 4.6178,
+        "altitude": 438,
+        "secteurs_vent": "N;NOSecteurs de vent défavorables : NE;E;SE;S;SO;OConditions aérologiques idéales : Vent de secteur Nord-Ouest.",
+        "orientation_all": "N;NO",
+        "orientation": "NO"
+    },
+    {
+        "id": "1022",
+        "nom": "QUINCIE - RAMIERS - FAYOLLES (N)",
+        "code": "1022",
+        "commune": "QUINCIE",
+        "code_postal": "69430",
+        "activite": "parapente delta  [ déco ]",
+        "statut": "actif",
+        "latitude": 46.1085,
+        "longitude": 4.619,
+        "altitude": 416,
+        "secteurs_vent": "NSecteurs de vent défavorables : E;SE;S;SO;O;NOConditions aérologiques idéales : Vent de nord et ciel de traîne.",
+        "orientation_all": "N",
+        "orientation": "N"
+    },
+    {
+        "id": "1708",
+        "nom": "SAINTE-MARIE (SE)",
+        "code": "1708",
+        "commune": "ST ETIENNE LA VARENNE",
+        "code_postal": "69198",
+        "activite": "parapente  [ déco ]",
+        "statut": "actif",
+        "latitude": 46.0843,
+        "longitude": 4.6086,
+        "altitude": 588,
+        "secteurs_vent": "SE;SSecteurs de vent défavorables : N;NE;E;SO;O;NOConditions aérologiques idéales : Utilisable par vent faible de sud en vallée du Rhône.",
+        "orientation_all": "SE;S",
+        "orientation": "SE"
     }
 ]
