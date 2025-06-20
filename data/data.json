@@ -658,7 +658,7 @@
     },
     {
         "id": "5103",
-        "nom": "COL DE ROUSSET",
+        "nom": "COL DE ROUSSET (SO)",
         "code": "5103",
         "commune": "DIE",
         "code_postal": "26150",
@@ -669,11 +669,11 @@
         "altitude": 1511,
         "secteurs_vent": "Non renseignéSecteurs de vent défavorables : Non renseignéConditions aérologiques idéales : Non renseigné",
         "orientation_all": "Non renseigné",
-        "orientation": null
+        "orientation": "SO"
     },
     {
         "id": "3020",
-        "nom": "COL DE ROUSSET",
+        "nom": "COL DE ROUSSET (SO)",
         "code": "3020",
         "commune": "CHAMALOC",
         "code_postal": "26150",
@@ -684,7 +684,7 @@
         "altitude": 1480,
         "secteurs_vent": "Non renseignéSecteurs de vent défavorables : Non renseignéConditions aérologiques idéales : Non renseigné",
         "orientation_all": "Non renseigné",
-        "orientation": null
+        "orientation": "SO"
     },
     {
         "id": "5184",
@@ -2408,21 +2408,6 @@
         "orientation": "NE"
     },
     {
-        "id": "3021",
-        "nom": "TREMOLET",
-        "code": "3021",
-        "commune": "SAINT-CHAMOND",
-        "code_postal": "42400",
-        "activite": "parapente  [ déco ]",
-        "statut": "actif",
-        "latitude": 45.4535,
-        "longitude": 4.5254,
-        "altitude": 652,
-        "secteurs_vent": "Non renseignéSecteurs de vent défavorables : Non renseignéConditions aérologiques idéales : Non renseigné",
-        "orientation_all": "Non renseigné",
-        "orientation": null
-    },
-    {
         "id": "370",
         "nom": "CHASPINHAC (NE) 🚩",
         "code": "370",
@@ -2457,7 +2442,7 @@
     },
     {
         "id": "5154",
-        "nom": "CONILIS",
+        "nom": "CONIL (SO)",
         "code": "5154",
         "commune": "SAINT-DIDIER-D'ALLIER",
         "code_postal": "43580",
@@ -2468,11 +2453,11 @@
         "altitude": 1090,
         "secteurs_vent": "Non renseignéSecteurs de vent défavorables : Non renseignéConditions aérologiques idéales : Non renseigné",
         "orientation_all": "Non renseigné",
-        "orientation": null
+        "orientation": "SO"
     },
     {
         "id": "5153",
-        "nom": "GERBIZON NO",
+        "nom": "GERBIZON (NO)",
         "code": "5153",
         "commune": "CHAMALIERES-SUR-LOIRE",
         "code_postal": "43800",
@@ -2483,7 +2468,7 @@
         "altitude": 978,
         "secteurs_vent": "Non renseignéSecteurs de vent défavorables : Non renseignéConditions aérologiques idéales : Non renseigné",
         "orientation_all": "Non renseigné",
-        "orientation": null
+        "orientation": "NO"
     },
     {
         "id": "372",
@@ -2499,36 +2484,6 @@
         "secteurs_vent": "SO;OSecteurs de vent défavorables : S;NOConditions aérologiques idéales : Non renseigné",
         "orientation_all": "SO;O",
         "orientation": "SO"
-    },
-    {
-        "id": "368",
-        "nom": "LAVOUTE-SUR-LOIRE - CHASSAURE - RELAIS (N)",
-        "code": "368",
-        "commune": "CHASPINHAC",
-        "code_postal": "43700",
-        "activite": "parapente  [ déco ]",
-        "statut": "actif",
-        "latitude": 45.1123,
-        "longitude": 3.9169,
-        "altitude": 873,
-        "secteurs_vent": "NSecteurs de vent défavorables : Non renseignéConditions aérologiques idéales : N//NNO",
-        "orientation_all": "N",
-        "orientation": "N"
-    },
-    {
-        "id": "3052",
-        "nom": "LONGEVAL",
-        "code": "3052",
-        "commune": "ESPLANTAS",
-        "code_postal": "43170",
-        "activite": "parapente  [ déco ]",
-        "statut": "actif",
-        "latitude": 44.925,
-        "longitude": 3.5453,
-        "altitude": 1009,
-        "secteurs_vent": "Non renseignéSecteurs de vent défavorables : Non renseignéConditions aérologiques idéales : Non renseigné",
-        "orientation_all": "Non renseigné",
-        "orientation": null
     },
     {
         "id": "376",
@@ -2547,7 +2502,7 @@
     },
     {
         "id": "13590",
-        "nom": "MONT-GERBIZON (E) (NE) 🚩",
+        "nom": "MONT-GERBIZON (E) 🚩",
         "code": "13590",
         "commune": "RETOURNAC",
         "code_postal": "43130",
@@ -2562,7 +2517,7 @@
             "https://www.balisemeteo.com/balise.php?idBalise=5081"
         ],
         "orientation_all": "NE;E",
-        "orientation": "NE"
+        "orientation": "E"
     },
     {
         "id": "5128",
@@ -2595,21 +2550,6 @@
         "orientation": "S"
     },
     {
-        "id": "3064",
-        "nom": "RETOURNAC",
-        "code": "3064",
-        "commune": "RETOURNAC",
-        "code_postal": "43130",
-        "activite": "parapente  [ déco ]",
-        "statut": "actif",
-        "latitude": 45.2048,
-        "longitude": 4.0491,
-        "altitude": 555,
-        "secteurs_vent": "Non renseignéSecteurs de vent défavorables : Non renseignéConditions aérologiques idéales : Non renseigné",
-        "orientation_all": "Non renseigné",
-        "orientation": null
-    },
-    {
         "id": "5129",
         "nom": "ROCHE-EN-REGNIER (S)",
         "code": "5129",
@@ -2626,7 +2566,7 @@
     },
     {
         "id": "3030",
-        "nom": "SAINTE ANNE",
+        "nom": "SAINTE ANNE (SO)",
         "code": "3030",
         "commune": "POLIGNAC",
         "code_postal": "43770",
@@ -2637,22 +2577,7 @@
         "altitude": 792,
         "secteurs_vent": "Non renseignéSecteurs de vent défavorables : Non renseignéConditions aérologiques idéales : Non renseigné",
         "orientation_all": "Non renseigné",
-        "orientation": null
-    },
-    {
-        "id": "1812",
-        "nom": "TYROLIENNE - CASCADE-DES-SALINS",
-        "code": "1812",
-        "commune": "CHAUDEYROLLES",
-        "code_postal": "43430",
-        "activite": "parapente delta  [ déco ]",
-        "statut": "actif",
-        "latitude": 44.9373,
-        "longitude": 4.2007,
-        "altitude": 1331,
-        "secteurs_vent": "Non renseignéSecteurs de vent défavorables : Non renseignéConditions aérologiques idéales : Non renseigné",
-        "orientation_all": "Non renseigné",
-        "orientation": null
+        "orientation": "SO"
     },
     {
         "id": "568",
@@ -2756,7 +2681,7 @@
     },
     {
         "id": "5332",
-        "nom": "TRUC SAINT BONNET",
+        "nom": "TRUC SAINT BONNET (SO)",
         "code": "5332",
         "commune": "SAINT-BONNET-DE-CHIRAC",
         "code_postal": "48100",
@@ -2767,7 +2692,7 @@
         "altitude": 886,
         "secteurs_vent": "Non renseignéSecteurs de vent défavorables : Non renseignéConditions aérologiques idéales : Non renseigné",
         "orientation_all": "Non renseigné",
-        "orientation": null
+        "orientation": "SO"
     },
     {
         "id": "13318",
@@ -3341,24 +3266,6 @@
         "secteurs_vent": "N;NESecteurs de vent défavorables : E;SE;S;SO;O;NOConditions aérologiques idéales : Thermodynamique jusqu' à 20 km/h (moyenne indiquée par la balise)",
         "orientation_all": "N;NE",
         "orientation": "NE",
-        "balise": [
-            "https://www.balisemeteo.com/balise.php?idBalise=5039"
-        ]
-    },
-    {
-        "id": "5105",
-        "nom": "LA LIOUFFE 🚩",
-        "code": "5105",
-        "commune": "ANCY",
-        "code_postal": "69490",
-        "activite": "parapente  [ déco ]",
-        "statut": "actif",
-        "latitude": 45.838,
-        "longitude": 4.4994,
-        "altitude": 748,
-        "secteurs_vent": "Non renseignéSecteurs de vent défavorables : Non renseignéConditions aérologiques idéales : Non renseigné",
-        "orientation_all": "Non renseigné",
-        "orientation": null,
         "balise": [
             "https://www.balisemeteo.com/balise.php?idBalise=5039"
         ]
